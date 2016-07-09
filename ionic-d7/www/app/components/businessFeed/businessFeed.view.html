@@ -1,0 +1,55 @@
+<ion-view title="Business Feed">
+
+  <ion-nav-bar>
+
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+
+    </ion-nav-buttons>
+
+    <ion-nav-buttons side="right">
+      <button toggle-by-accesslevel="{{app.accessLevels.user}}" style="color:#0779bf"
+              class="button button-icon icon no-animation ion-ios-plus" ng-click="businessFeed.openCreateModal()">
+      </button>
+      <button toggle-by-accesslevel="{{app.accessLevels.admin}}"
+              class="button button-icon icon no-animation {{businessFeed.deleteVisible?'ion-ios-minus':'ion-ios-minus-outline'}}"
+              ng-click="businessFeed.deleteVisible = !businessFeed.deleteVisible">
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+  <ion-content>
+
+    <ion-refresher on-refresh="businessFeed.doRefresh()"></ion-refresher>
+
+    <ion-list show-delete="businessFeed.deleteVisible" can-swipt="true">
+      <ion-item ng-repeat="business in businessFeed.businesses | orderBy:'-created' track by business.nid"
+                class="item-icon-right item-thumbnail-left item-spinner-right"
+                ng-click="businessFeed.openDetail(business)">
+        <img ng-src="{{business.field_image.und[0].imgPath}}"/>
+
+        <h2>{{business.title}}</h2>
+
+        <p>{{business.created * 1000 | date:'dd.MM.yyyy hh:mm:ss'}}</p>
+
+        <ion-spinner ng-show="businessFeed.loadingDetail == business.nid"></ion-spinner>
+        <i ng-show="businessFeed.loadingDetail != business.nid" class="icon ion-ios-arrow-right"
+           ng-click="businessFeed.openDetail(business.nid)"></i>
+
+        <!--
+            <ion-option-button class="button-positive"  ng-click="businessFeed.openCreateModal(business, $index)">
+                Edit
+            </ion-option-button>
+              -->
+        <ion-delete-button toggle-by-own-uid="{{business.uid}}" class="ion-minus-circled ion-delete-button"
+                           ng-click="businessFeed.deleteBusiness(business, $index)">
+          <ion-spinner ng-if="businessFeed.deletingBusiness == business.nid"></ion-spinner>
+        </ion-delete-button>
+
+      </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll on-infinite="businessFeed.loadMore()" distance="5%"></ion-infinite-scroll>
+
+  </ion-content>
+</ion-view>

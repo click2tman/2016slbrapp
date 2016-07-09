@@ -1,0 +1,83 @@
+<div class="modal">
+
+  <!-- Modal header bar -->
+  <ion-header-bar class="bar-secondary">
+    <h1 class="title">Create Business</h1>
+    <button class="button button-clear button-positive" ng-click="businessFeed.closeCreateModal()">Cancel</button>
+  </ion-header-bar>
+
+  <!-- Modal content area -->
+  <ion-content>
+
+    <form>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_category.und" placeholder="Category">
+        </label>
+        
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.title" placeholder="Title">
+        </label>
+
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_telephone.und[0].value" placeholder="Telephone">
+        </label>
+
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_email.und[0].email" placeholder="Email">
+        </label>
+
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_website.und[0].value" placeholder="Website">
+        </label>
+
+        <div>
+          <div class="row">
+            <div class="col-50">
+              <img class="businesses-image" ng-src="{{businessFeed.newBusiness.field_image.und[0].imgPath}}"
+                   ng-if="businessFeed.newBusiness.field_image.und[0].imgPath && businessFeed.newBusiness.field_image.base64 == false"/>
+
+              <div class="businesses-image"
+                   style=" background-image:url(data:image/jpeg;base64,{{businessFeed.newBusiness.field_image.base64}})"
+                   ng-if="!businessFeed.newBusiness.field_image.und[0].imgPath"></div>
+            </div>
+            <div class="col-50">
+              <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                      ng-class="{ true:'disabled' }[!businessFeed.newBusiness.field_image.base64 || businessFeed.savingBusiness]"
+                      ng-click="businessFeed.newBusiness.field_image.base64 = false">
+                Delete
+              </button>
+
+              <button type="submit" ng-click="businessFeed.takeImage()"
+                      class="button button-block button-positive icon-left ion-camera"
+                      ng-class="{ true:'disabled' }[businessFeed.savingBusiness]">
+                <span ng-if="businessFeed.newBusiness.field_image.base64">Retake</span>
+                <span ng-if="!businessFeed.newBusiness.field_image.base64">Take</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="padding">
+          <button ng-if="businessFeed.businessModalMode == 'create'" type="submit"
+                  ng-click="businessFeed.saveBusiness(businessFeed.newBusiness)"
+                  ng-class="{ true:'disabled' }[businessFeed.savingBusiness]"
+                  class="button button-block button-positive button-spinner">
+            Save
+            <ion-spinner ng-if="businessFeed.savingBusiness"></ion-spinner>
+          </button>
+          <button ng-if="businessFeed.businessModalMode == 'edit'" type="submit"
+                  ng-click="businessFeed.saveBusiness(businessFeed.newBusiness)"
+                  ng-class="{ true:'disabled' }[businessFeed.savingBusiness]"
+                  class="button button-block button-positive button-spinner">
+            Update
+            <ion-spinner ng-if="businessFeed.savingBusiness"></ion-spinner>
+          </button>
+        </div>
+
+    </form>
+
+  </ion-content>
+
+</div>

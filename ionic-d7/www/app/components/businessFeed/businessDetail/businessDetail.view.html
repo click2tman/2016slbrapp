@@ -1,0 +1,59 @@
+<ion-view title="{{businessDetail.viewTitle || 'Detail'}}">
+
+  <ion-nav-bar class="bar-dark">
+
+    <ion-nav-back-button class="button-clear">
+      <i class="ion-arrow-left-c"></i>
+    </ion-nav-back-button>
+
+
+  </ion-nav-bar>
+
+
+  <ion-content>
+    <div class="list card">
+      <div class="item" ng-class="businessDetail.pathToUserImg !== false?'item-avatar':''">
+        <img ng-if="businessDetail.pathToUserImg" ng-src="{{businessDetail.pathToUserImg}}">
+
+        <h2>{{businessDetail.title}}</h2>
+        <p>{{businessDetail.field_ltc_biz_address.und[0].country}}
+        {{businessDetail.field_ltc_biz_address.und[0].administrative_area}}
+        {{businessDetail.field_ltc_biz_address.und[0].sub_administrative_area}}
+        {{businessDetail.field_ltc_biz_address.und[0].locality}}
+        {{businessDetail.field_ltc_biz_address.und[0].dependent_locality}}
+        {{businessDetail.field_ltc_biz_address.und[0].postal_code}}
+        {{businessDetail.field_ltc_biz_address.und[0].thoroughfare}}
+        {{businessDetail.field_ltc_biz_address.und[0].premise}}
+        {{businessDetail.field_ltc_biz_address.und[0].sub_premise}}
+        {{businessDetail.field_ltc_biz_address.und[0].organisation_name}}
+        {{businessDetail.field_ltc_biz_address.und[0].name_line}}
+        {{businessDetail.field_ltc_biz_address.und[0].first_name}}
+        {{businessDetail.field_ltc_biz_address.und[0].last_name}}
+        {{businessDetail.field_ltc_biz_address.und[0].data}}</p>
+
+        <p>{{businessDetail.field_ltc_biz_telephone.und[0].value}}</p>
+        <p>{{businessDetail.field_ltc_biz_email.und[0].email}}</p>
+        <p>{{businessDetail.field_ltc_biz_website.und[0].url}}</p>
+        <p>Created on {{businessDetail.created * 1000 | date }}</p>
+      </div>
+
+      <div class="item item-body">
+        <img ng-if="businessDetail.pathToImg" class="full-image" ng-src="{{businessDetail.pathToImg}}">
+
+        <p>
+          <strong>Hours:</strong>
+          <p ng-repeat="hours in businessDetail.field_ltc_biz_business_hours">
+            {{hours}}
+          </p>
+        </p>
+        <p>
+          <strong>Category:</strong> {{businessDetail.field_ltc_biz_category.und[0].tid}}</p>
+          <strong>Chiefdom:</strong> {{businessDetail.field_ltc_biz_admin_location.und[0].tid}}</p>
+          <strong>Description:</strong> {{businessDetail.field_ltc_biz_description.und[0].value}}</p>
+      </div>
+    </div>
+
+
+  </ion-content>
+
+</ion-view>
