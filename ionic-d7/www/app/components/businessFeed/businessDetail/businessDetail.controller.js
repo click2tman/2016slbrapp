@@ -5,9 +5,9 @@
     .module('drupalionicDemo.businessFeed.businessDetail.controller', [])
     .controller('BusinessDetailController', BusinessDetailController);
 
-  BusinessDetailController.$inject = ['$scope', '$stateParams', 'UserResource', 'NodeResource', 'DrupalHelperService', 'businessDetail']
+  BusinessDetailController.$inject = ['$scope', '$stateParams', 'UserResource', 'NodeResource', 'CommentResource', 'DrupalHelperService', 'businessDetail']
 
-  function BusinessDetailController($scope, $stateParams, UserResource, NodeResource, DrupalHelperService, businessDetail) {
+  function BusinessDetailController($scope, $stateParams, UserResource, NodeResource, CommentResource, DrupalHelperService, businessDetail) {
 
     var vm = this;
 
@@ -34,23 +34,46 @@
      function() {}
      );
      }*/
-
-    /*vm.loadingComments = false;
-     vm.loadComments = function (numOfNodes) {
-     if(numOfNodes > 0) {
-     vm.loadingComments = true;
-     NodeResource.comments(vm.article.uid).then(
-     function(newComments) {
+     
+     vm.comments = {};
      vm.loadingComments = false;
-     vm.comments = newComments;
-     },
-     //error loading user
-     function() {
-     vm.loadingComments = false;
-     }
+     NodeResource.comments(businessDetail).then(
+             function(newComments) {
+                     vm.loadingComments = false;
+                     vm.comments = newComments;
+             },
+             //error loading user
+             function() {
+                vm.loadingComments = false;
+             }
      );
+
+     vm.createComment = function(nid) {
+          data = {"nid": nid, 
+                 "subject": "subject comes here",
+                "comment_body":{"und":[{"value":"comment body come"}]}
+                }
+          return CommentResource.create(data);
      }
+
+     /*vm.loadingComments = false;
+     vm.loadComments = function (numOfNodes, node) {
+             if(numOfNodes > 0) {
+                     vm.loadingComments = true;
+
+                     NodeResource.comments(businessDetail).then(
+                             function(newComments) {
+                                     vm.loadingComments = false;
+                                     vm.comments = newComments;
+                             },
+                             //error loading user
+                             function() {
+                                vm.loadingComments = false;
+                             }
+                     );
+             }
      }
+
 
      vm.createComment = function(nid, cid) {
 

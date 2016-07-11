@@ -11,10 +11,9 @@
 
 
   <ion-content>
-    <div class="list card">
+    <div class="list card" ng-load="businessDetail.loadComments(1, businessDetail)">
       <div class="item" ng-class="businessDetail.pathToUserImg !== false?'item-avatar':''">
         <img ng-if="businessDetail.pathToUserImg" ng-src="{{businessDetail.pathToUserImg}}">
-
         <h2>{{businessDetail.title}}</h2>
         <p>{{businessDetail.field_ltc_biz_address.und[0].country}}
         {{businessDetail.field_ltc_biz_address.und[0].administrative_area}}
@@ -47,9 +46,34 @@
           </p>
         </p>
         <p>
-          <strong>Category:</strong> {{businessDetail.field_ltc_biz_category.und[0].tid}}</p>
-          <strong>Chiefdom:</strong> {{businessDetail.field_ltc_biz_admin_location.und[0].tid}}</p>
-          <strong>Description:</strong> {{businessDetail.field_ltc_biz_description.und[0].value}}</p>
+          <p><strong>Category:</strong> {{businessDetail.field_ltc_biz_category.und[0].tid}}</p>
+          <p><strong>Chiefdom:</strong> {{businessDetail.field_ltc_biz_admin_location.und[0].tid}}</p>
+          <p><strong>Description:</strong> {{businessDetail.field_ltc_biz_description.und[0].value}}</p>
+        </p>
+        <p>
+          <strong>Comments</strong>
+          <ion-item ng-repeat="($index, comment) in businessDetail.comments.data">
+             <strong>Title:</strong> {{comment.subject}} <br/>
+             <strong>By:</strong> {{comment.name}} <br/>
+             <strong>Rating:</strong> {{comment.field_ltc_biz_rating.und[0].rating}} <br/>
+             <strong>Body:</strong> {{comment.comment_body.und[0].value}} <br/>
+
+          </ion-item>
+        </p>
+        <p>
+               <strong>Add New Comment</strong>
+
+               <label class="item item-input">
+                  <input type="text" ng-model="newComment.subject" placeholder="Subject">
+               </label>
+
+               <textarea rows="6" placeholder="Body" type="text" ng-model="newComment.comment_body" ></textarea>
+                <button type="submit"
+                ng-click="businessDetail.createComment(businessDetail.nid)"
+                class="button button-block button-positive button-spinner">
+                Add Comment
+                </button>
+        </p>
       </div>
     </div>
 

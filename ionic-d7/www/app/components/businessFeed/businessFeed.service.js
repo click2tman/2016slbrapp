@@ -5,12 +5,11 @@
     .module('drupalionicDemo.businessFeed.service', [])
     .factory('BusinessFeedService', BusinessFeedService);
 
-  BusinessFeedService.inject = ['$q', '$filter', 'DrupalApiConstant', 'DrupalHelperService', 'ViewsResource', 'FileResource', 'NodeResource', 'AuthenticationService']
+  BusinessFeedService.inject = ['$q', '$filter', 'DrupalApiConstant', 'DrupalHelperService', 'ViewsResource', 'FileResource', 'NodeResource', 'AuthenticationService', 'TaxonomyVocabularyResource', 'TaxonomyTermResource', 'CommentResource']
+  function BusinessFeedService($q, $filter, DrupalApiConstant, DrupalHelperService, ViewsResource, FileResource, NodeResource, AuthenticationService, TaxonomyTermResource, CommentResource) {
 
-  function BusinessFeedService($q, $filter, DrupalApiConstant, DrupalHelperService, ViewsResource, FileResource, NodeResource, AuthenticationService) {
-
+    console.log("BusinessFeedService");
     var initialised = false,
-
     //pagination options
     paginationOptions = {};
     paginationOptions.pageFirst = 0;
@@ -31,6 +30,7 @@
     var businessFeedService = {
       init: init,
       getAll: getAll,
+      getAllTaxonomy: getAllTaxonomy,
       get: get,
       loadRecent: loadRecent,
       loadMore: loadMore,
@@ -173,7 +173,6 @@
     //retrieves businesses from view and handle pagination
     function retreiveBusinesses(viewsOptions) {
       paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
-
       var defer = $q.defer();
       ViewsResource
         .retrieve(viewsOptions)
@@ -312,6 +311,59 @@
 
 
   }
+
+
+    //returns all taxonomy
+    //@TODO implement exposed filters for request and cache like in get
+    function getAllTaxonomy() {
+      alert("getAllTaxonomy");
+      var defer = $q.defer(),
+      allTaxonomy = undefined;
+      if (taxonomy.length > 0) {
+        allTaxonomy = taxonomy;
+      } else {
+        allTaxonomy = undefined;
+      }
+
+      if (allTaxonomy != undefined) {
+        defer.resolve(allTaxonomy);
+      }
+      else {
+        return retreiveTaxonomy();
+      }
+
+      return defer.promise;
+    }
+
+
+    //retrieves taxonomy from services and handle pagination
+    function retreiveTaxonomy() {
+      alert("retreiveTaxonomy");
+      paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
+
+      var defer = $q.defer();
+      TaxonomyTermResource
+        .index()
+        .then(
+        function (response) {
+          alert(JSON.stringify(response));
+          if (response.data.length != 0) {
+            allTaxonomy = mergeItems(response.data, allTaxonomy, undefined, prepareAllTaxonomy);
+          }
+
+
+          defer.resolve(allTaxonomy);
+        }
+      )
+      .catch(
+        function (error) {
+          defer.reject(error);
+        }
+      );
+
+      return defer.promise;
+
+    }
 
 
 })();
