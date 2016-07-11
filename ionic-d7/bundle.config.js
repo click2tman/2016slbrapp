@@ -73,6 +73,18 @@ module.exports = {
         "lib/ng-drupal-7-services/src/resources/node/node.channel.js",
         "lib/ng-drupal-7-services/src/resources/node/node.bundle.js",
 
+        "lib/ng-drupal-7-services/src/resources/taxonomy_term/taxonomy_term.resourceConstant.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_term/taxonomy_term.resource.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_term/taxonomy_term.channelConstant.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_term/taxonomy_term.channel.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_term/taxonomy_term.bundle.js",
+
+        "lib/ng-drupal-7-services/src/resources/taxonomy_vocabulary/taxonomy_vocabulary.resourceConstant.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_vocabulary/taxonomy_vocabulary.resource.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_vocabulary/taxonomy_vocabulary.channelConstant.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_vocabulary/taxonomy_vocabulary.channel.js",
+        "lib/ng-drupal-7-services/src/resources/taxonomy_vocabulary/taxonomy_vocabulary.bundle.js",
+
         "lib/ng-drupal-7-services/src/resources/file/file.resourceConstant.js",
         "lib/ng-drupal-7-services/src/resources/file/file.resource.js",
         "lib/ng-drupal-7-services/src/resources/file/file.channelConstant.js",
