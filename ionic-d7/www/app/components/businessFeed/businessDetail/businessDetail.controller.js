@@ -5,9 +5,9 @@
     .module('drupalionicDemo.businessFeed.businessDetail.controller', [])
     .controller('BusinessDetailController', BusinessDetailController);
 
-  BusinessDetailController.$inject = ['$scope', '$stateParams', 'UserResource', 'NodeResource', 'CommentResource', 'DrupalHelperService', 'businessDetail']
+  BusinessDetailController.$inject = ['$scope', '$stateParams', 'UserResource', 'NodeResource', 'CommentResource', 'TaxonomyTermResource','DrupalHelperService', 'businessDetail']
 
-  function BusinessDetailController($scope, $stateParams, UserResource, NodeResource, CommentResource, DrupalHelperService, businessDetail) {
+  function BusinessDetailController($scope, $stateParams, UserResource, NodeResource, CommentResource, TaxonomyTermResource, DrupalHelperService, businessDetail) {
 
     var vm = this;
 
@@ -33,7 +33,32 @@
      //error loading user
      function() {}
      );
-     }*/
+     }*/  
+     
+     bizcatdata = {};
+     bizcatdata.tid = businessDetail.field_ltc_biz_category.und[0].tid;
+     vm.bizcatinfo = {};
+     TaxonomyTermResource.retrieve(bizcatdata).then(
+             function(terminfo) {
+                     vm.bizcatinfo = terminfo;
+             },
+             //error loading user
+             function() {
+             }
+     ); 
+
+     chiefdomcatdata = {};
+     chiefdomcatdata.tid = businessDetail.field_ltc_biz_admin_location.und[0].tid;
+     vm.chiefdomcatinfo = {};
+     TaxonomyTermResource.retrieve(chiefdomcatdata).then(
+             function(terminfo) {
+                     vm.chiefdomcat = terminfo;
+             },
+             //error loading user
+             function() {
+             }
+     );
+ 
      
      vm.comments = {};
      vm.loadingComments = false;
@@ -47,13 +72,14 @@
                 vm.loadingComments = false;
              }
      );
-
-     vm.createComment = function(nid) {
+     
+     $scope.newComment = {};
+     vm.createComment = function(nid, newComment) {
           data = {"nid": nid, 
-                 "subject": "subject comes here",
-                "comment_body":{"und":[{"value":"comment body come"}]}
+                 "subject": newComment.subject,
+                "comment_body":{"und":[{"value": newComment.comment_body}]}
                 }
-          return CommentResource.create(data);
+          CommentResource.create(data)
      }
 
      /*vm.loadingComments = false;

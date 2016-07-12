@@ -9,7 +9,10 @@
     /** @ngInject */
     function configFunction(DrupalApiConstant) {
       //drupal services configurations
-      DrupalApiConstant.drupal_instance = 'http://localhost/2016slbrapp/ionic-d7/slbizreviewslinode/docroot/';
+      //DrupalApiConstant.drupal_instance = 'http://localhost/2016slbrapp/ionic-d7/slbizreviewslinode/docroot/';
+      DrupalApiConstant.drupal_instance = 'http://slbizreviewslinode.local/';
       DrupalApiConstant.api_endpoint += 'v1/slbiz/';
+      //DrupalApiConstant.drupal_instance = 'http://slbr.sl/';
+      //DrupalApiConstant.api_endpoint += 'v1/';
     }
 })();

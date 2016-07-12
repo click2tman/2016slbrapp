@@ -11,7 +11,7 @@
 
 
   <ion-content>
-    <div class="list card" ng-load="businessDetail.loadComments(1, businessDetail)">
+    <div class="list card">
       <div class="item" ng-class="businessDetail.pathToUserImg !== false?'item-avatar':''">
         <img ng-if="businessDetail.pathToUserImg" ng-src="{{businessDetail.pathToUserImg}}">
         <h2>{{businessDetail.title}}</h2>
@@ -46,8 +46,8 @@
           </p>
         </p>
         <p>
-          <p><strong>Category:</strong> {{businessDetail.field_ltc_biz_category.und[0].tid}}</p>
-          <p><strong>Chiefdom:</strong> {{businessDetail.field_ltc_biz_admin_location.und[0].tid}}</p>
+          <p><strong>Category:</strong> {{businessDetail.bizcatinfo.data.name}}</p>
+          <p><strong>Chiefdom:</strong> {{businessDetail.chiefdomcat.data.name}}</p>
           <p><strong>Description:</strong> {{businessDetail.field_ltc_biz_description.und[0].value}}</p>
         </p>
         <p>
@@ -69,7 +69,7 @@
 
                <textarea rows="6" placeholder="Body" type="text" ng-model="newComment.comment_body" ></textarea>
                 <button type="submit"
-                ng-click="businessDetail.createComment(businessDetail.nid)"
+                ng-click="businessDetail.createComment(businessDetail.nid, newComment)"
                 class="button button-block button-positive button-spinner">
                 Add Comment
                 </button>
