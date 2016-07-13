@@ -1,0 +1,54 @@
+$view = new view();
+$view->name = 'list_business_term';
+$view->description = '';
+$view->tag = 'default';
+$view->base_table = 'taxonomy_term_data';
+$view->human_name = 'List Business Term';
+$view->core = 7;
+$view->api_version = '3.0';
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+$handler = $view->new_display('default', 'Master', 'default');
+$handler->display->display_options['use_more_always'] = FALSE;
+$handler->display->display_options['access']['type'] = 'perm';
+$handler->display->display_options['cache']['type'] = 'none';
+$handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['style_plugin'] = 'views_json';
+$handler->display->display_options['style_options']['root_object'] = 'data';
+$handler->display->display_options['style_options']['top_child_object'] = '';
+$handler->display->display_options['style_options']['field_output'] = 'raw';
+$handler->display->display_options['style_options']['plaintext_output'] = 1;
+$handler->display->display_options['style_options']['remove_newlines'] = 0;
+$handler->display->display_options['style_options']['jsonp_prefix'] = '';
+$handler->display->display_options['style_options']['using_views_api_mode'] = 0;
+$handler->display->display_options['style_options']['object_arrays'] = 0;
+$handler->display->display_options['style_options']['numeric_strings'] = 0;
+$handler->display->display_options['style_options']['bigint_string'] = 0;
+$handler->display->display_options['style_options']['pretty_print'] = 0;
+$handler->display->display_options['style_options']['unescaped_slashes'] = 0;
+$handler->display->display_options['style_options']['unescaped_unicode'] = 0;
+$handler->display->display_options['style_options']['char_encoding'] = array();
+/* Field: Taxonomy term: Name */
+$handler->display->display_options['fields']['name']['id'] = 'name';
+$handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
+$handler->display->display_options['fields']['name']['field'] = 'name';
+$handler->display->display_options['fields']['name']['label'] = '';
+$handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+/* Field: Taxonomy term: Term ID */
+$handler->display->display_options['fields']['tid']['id'] = 'tid';
+$handler->display->display_options['fields']['tid']['table'] = 'taxonomy_term_data';
+$handler->display->display_options['fields']['tid']['field'] = 'tid';
+$handler->display->display_options['fields']['tid']['label'] = '';
+$handler->display->display_options['fields']['tid']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['tid']['separator'] = '';
+/* Filter criterion: Taxonomy vocabulary: Machine name */
+$handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
+$handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
+$handler->display->display_options['filters']['machine_name']['field'] = 'machine_name';
+$handler->display->display_options['filters']['machine_name']['value'] = array(
+  'ltc_business_categories' => 'ltc_business_categories',
+);
+
