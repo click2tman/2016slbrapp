@@ -19,9 +19,7 @@
   </ion-nav-bar>
 
   <ion-content>
-
     <ion-refresher on-refresh="businessFeed.doRefresh()"></ion-refresher>
-
     <ion-list show-delete="businessFeed.deleteVisible" can-swipt="true">
       <ion-item ng-repeat="business in businessFeed.businesses | orderBy:'-created' track by business.nid"
                 class="item-icon-right item-thumbnail-left item-spinner-right"
@@ -29,7 +27,6 @@
         <img ng-src="{{business.field_image.und[0].imgPath}}"/>
 
         <h2>{{business.title}}</h2>
-
         <p>{{business.created * 1000 | date:'dd.MM.yyyy hh:mm:ss'}}</p>
 
         <ion-spinner ng-show="businessFeed.loadingDetail == business.nid"></ion-spinner>

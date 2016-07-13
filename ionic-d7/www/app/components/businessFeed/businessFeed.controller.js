@@ -7,11 +7,9 @@
   BusinessFeedController.$inject = ['$q', '$scope', '$state', '$filter', '$ionicListDelegate', '$ionicModal', 'DrupalHelperService', 'BusinessFeedService', 'AuthenticationService', 'actualBusinesses']
 
   function BusinessFeedController($q, $scope, $state, $filter, $ionicListDelegate, $ionicModal, DrupalHelperService, BusinessFeedService, AuthenticationService, actualBusinesses) {
-
     var vm = this;
     //vars
     vm.deleteVisible = false;
-
     vm.loadingDetail = false;
     vm.businesses = actualBusinesses;
     //functions
@@ -72,6 +70,18 @@
     vm.saveBusiness = saveBusiness;
     vm.deleteBusiness = deleteBusiness;
 
+    // For Fetching Business Category Start
+    vm.business_categories = {};
+    BusinessFeedService.getAllBusinessCat().then(
+    function (allTerms) {
+        vm.business_categories = allTerms;
+    },
+    function (data) {
+        //Stop the ion-refresher from spinning
+        //$scope.$broadcast('scroll.refreshComplete');
+    });  
+    // For Fetching Business Category End 
+
     //new node
     vm.newImage = {};
     vm.newBusiness = {};
@@ -130,7 +140,7 @@
           field_image: {base64: false}
         }*/
         {"type":"ltc_business", 
-         "field_ltc_biz_category":{"und":"201"},
+         "field_ltc_biz_category": {"und":219},
         "title":"test",
         "field_ltc_biz_telephone":{"und":[{"value":"123123123123"}]},
         "field_ltc_biz_email":{"und":[{"email":"test@gmail.com"}]},
@@ -143,6 +153,8 @@
         }
       );
 
+alert(JSON.stringify(vm.newBusiness));
+
       vm.createModal.show();
     };
 
@@ -152,7 +164,7 @@
     };
 
     function saveBusiness(business) {
-
+      alert(JSON.stringify(business));
       vm.savingBusiness = true;
       BusinessFeedService
         .saveBusiness(business)
@@ -189,5 +201,6 @@
 
     }
   }
+ 
 
 })();

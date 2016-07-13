@@ -26,23 +26,36 @@
     //stored business
     var businesses = [];
 
+    //Options for indexing business category
+    var viewsOptions_bc = {};
+    viewsOptions_bc.view_name = 'list_business_term';
+    viewsOptions_bc.page = 0;
+    viewsOptions_bc.pagesize = 25;
+    viewsOptions_bc.format_output = '0';
+
+    //stored business category
+    var business_categories = [];
+
     //businessFeed service object
     var businessFeedService = {
       init: init,
       getAll: getAll,
-      getAllTaxonomy: getAllTaxonomy,
+      getAllBusinessCat: getAllBusinessCat,
+      retreiveBusinessCategory: retreiveBusinessCategory,
       get: get,
       loadRecent: loadRecent,
       loadMore: loadMore,
       saveBusiness: saveBusiness,
       deleteBusiness: deleteBusiness
     }
+ 
 
     return businessFeedService;
 
     /////////////////////////////////////////////////////////////
 
     function init() {
+      console.log("init");
       var defer = $q.defer();
 
       retreiveBusinesses(viewsOptions)
@@ -85,6 +98,7 @@
     //returns all businesses
     //@TODO implement exposed filters for request and cache like in get
     function getAll() {
+      console.log("getAll");
       var defer = $q.defer(),
         allFilteredSpots = undefined;
       if (businesses.length > 0) {
@@ -108,7 +122,7 @@
     // if item not in cache it fires request to server
     //filter { nid:3 }
     function get(filter) {
-
+      console.log("get");
       var defer = $q.defer(),
         business = undefined;
 
@@ -143,16 +157,17 @@
 
     //loads recent businesses and adds to businesses array
     function loadRecent() {
+      console.log("loadRecent");
       if (paginationOptions.pageFirst > 0) {
         paginationOptions.pageFirst = 0;
       }
       viewsOptions.page = paginationOptions.pageFirst;
-
       return retreiveBusinesses(viewsOptions);
     }
 
     //loads businesses and adds to businesses array
     function loadMore() {
+      console.log("loadMore");
       var defer = $q.defer();
 
       if (paginationOptions.maxPage === undefined) {
@@ -172,6 +187,7 @@
 
     //retrieves businesses from view and handle pagination
     function retreiveBusinesses(viewsOptions) {
+      console.log("retreiveBusinesses");
       paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
       var defer = $q.defer();
       ViewsResource
@@ -204,6 +220,7 @@
     //saves business and optional image
     //returns promise
     function saveBusiness(business) {
+      console.log("saveBusiness");
 
       var preparedBusiness = angular.merge({}, business);
 
@@ -245,6 +262,7 @@
       // - resolve after saved image to server
       // - rejects if saving image fails or no image given
       function trySaveOptionalImage() {
+        console.log("trySaveOptionalImage");
         return $q.reject(false);
         //if data is given
         if (preparedBusiness.field_image.base64) {
@@ -272,10 +290,12 @@
     }
 
     function deleteBusiness(business) {
+      console.log("deleteBusiness");
       return NodeResource.delete(business);
     }
 
     function mergeItems(newItems, currentItems , type, callback) {
+      console.log("mergeItems");
 
       callback = (typeof(callback) === "function")?callback:function(obj) {return obj;};
 
@@ -307,63 +327,69 @@
         });
         return currentItems;
       }
-    };
+    }
 
-
-  }
-
-
+      
     //returns all taxonomy
     //@TODO implement exposed filters for request and cache like in get
-    function getAllTaxonomy() {
-      alert("getAllTaxonomy");
-      var defer = $q.defer(),
+    function getAllBusinessCat() {
+      console.log("getAllBusinessCat");
+      var defer_bc = $q.defer(),
       allTaxonomy = undefined;
-      if (taxonomy.length > 0) {
-        allTaxonomy = taxonomy;
+      if (business_categories.length > 0) {
+        allTaxonomy = business_categories;
       } else {
         allTaxonomy = undefined;
       }
 
       if (allTaxonomy != undefined) {
-        defer.resolve(allTaxonomy);
+        defer_bc.resolve(allTaxonomy);
       }
       else {
-        return retreiveTaxonomy();
+        return retreiveBusinessCategory(viewsOptions_bc);;
       }
 
-      return defer.promise;
+      return defer_bc.promise;
     }
 
 
     //retrieves taxonomy from services and handle pagination
-    function retreiveTaxonomy() {
-      alert("retreiveTaxonomy");
+    function retreiveBusinessCategory() {
+      console.log("retreiveBusinessCategory");
+      console.log("viewsOptions_bc: " + JSON.stringify(viewsOptions_bc));
+      console.log("paginationOptions: " + JSON.stringify(paginationOptions));
       paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
-
-      var defer = $q.defer();
-      TaxonomyTermResource
-        .index()
+      var defer_bc = $q.defer();
+      ViewsResource
+        .retrieve(viewsOptions_bc)
         .then(
         function (response) {
-          alert(JSON.stringify(response));
-          if (response.data.length != 0) {
-            allTaxonomy = mergeItems(response.data, allTaxonomy, undefined, prepareAllTaxonomy);
+          if (response.data.length != 0) {   
+            business_categories = response.data;
+            //alert(JSON.stringify(business_categories));
+            business_categories = mergeItems(response.data, business_categories, undefined, prepareBusiness);
+            //return business_categories;
           }
 
+          if (response.data.length == 0) {
+            viewsOptions_bc.page--;
+            paginationOptions.pageLast = viewsOptions_bc.page;
+            paginationOptions.maxPage = viewsOptions_bc.page;
+          }
 
-          defer.resolve(allTaxonomy);
+          defer_bc.resolve(business_categories);
         }
       )
-      .catch(
+        .catch(
         function (error) {
-          defer.reject(error);
+          defer_bc.reject(error);
         }
       );
 
-      return defer.promise;
+      return defer_bc.promise;
 
-    }
+    };
 
+  }
 
 })();

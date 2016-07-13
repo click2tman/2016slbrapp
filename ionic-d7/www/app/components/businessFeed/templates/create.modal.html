@@ -8,11 +8,12 @@
 
   <!-- Modal content area -->
   <ion-content>
-
     <form>
       <div class="list">
         <label class="item item-input">
-          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_category.und" placeholder="Category">
+           <select name="businessCategory" id="businessCategory" ng-model="businessFeed.newBusiness.field_ltc_biz_category.und">
+             <option ng-repeat="option in businessFeed.business_categories" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
         </label>
         
         <label class="item item-input">
