@@ -75,12 +75,60 @@
      
      $scope.newComment = {};
      vm.createComment = function(nid, newComment) {
+          //alert(JSON.stringify(newComment));
           data = {"nid": nid, 
                  "subject": newComment.subject,
-                "comment_body":{"und":[{"value": newComment.comment_body}]}
+                "comment_body":{"und":[{"value": newComment.comment_body}]},
+                "field_ltc_biz_rating": {"und":[{"rating": (newComment.rating * 20)}]}
                 }
-          CommentResource.create(data)
+
+          CommentResource.create(data);
+          /*newComment.field_image = {};
+          return trySaveOptionalImage(newComment)
+                .then(
+                function (result) {
+                  data.field_ltc_biz_photos = DrupalHelperService.structureField({fid: result.data.fid});
+                },
+                function (error) {
+                  //resolve without image
+                  //return $q.resolve(true);
+                }
+              )
+              .finally(
+                function () {
+                  CommentResource.create(data);
+                }
+              );
+          */
+
      }
+
+      //returns promise
+      // - resolve after saved image to server
+      // - rejects if saving image fails or no image given
+      function trySaveOptionalImage(newComment) {
+        //if data is given
+        if (newComment.field_image.base64) {
+
+          var imgData = newComment.field_image.base64;
+          delete newComment.field_image.base64;
+
+          var newImage = {};
+
+          newImage.file = imgData;
+          newImage.filename = 'drupal.jpg';
+          newImage.filesize = newImage.file.length;
+          newImage.filepath = 'field/image/';
+          newImage.filemime = "image/jpeg",
+          newImage.image_file_name = 'drupal.jpg';
+
+          return FileResource.create(newImage);
+        }
+
+        //else fail
+        return $q.reject(false);
+
+      }
 
      /*vm.loadingComments = false;
      vm.loadComments = function (numOfNodes, node) {

@@ -12,6 +12,7 @@
       <div class="list">
         <label class="item item-input">
            <select name="businessCategory" id="businessCategory" ng-model="businessFeed.newBusiness.field_ltc_biz_category.und">
+             <option value="">Select Category</option>
              <option ng-repeat="option in businessFeed.business_categories" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
            </select>
         </label>
@@ -29,8 +30,43 @@
         </label>
 
         <label class="item item-input">
-          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_website.und[0].value" placeholder="Website">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_website.und[0].url" placeholder="Website">
         </label>
+        <label class="item item-input">
+           <select name="businessChiefdom" id="businessChiefdom" ng-model="businessFeed.newBusiness.field_ltc_biz_chiefdoms.und">
+             <option value="">Select Chiefdom</option>
+             <option ng-repeat="option in businessFeed.chiefdoms" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+        </label>
+        <label class="item item-input">
+           <select name="businessKeywords" id="businessKeywords" ng-model="businessFeed.newBusiness.field_ltc_biz_keywords.und">
+             <option value="">Select Keywords</option>
+             <option ng-repeat="option in businessFeed.keywords" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+        </label>
+
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address.und[0].thoroughfare" placeholder="Address 1">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address.und[0].premise" placeholder="Address 2">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address.und[0].locality" placeholder="City">
+        </label>
+        <label class="item item-input">
+          <textarea rows="6" placeholder="Body" type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_description.und[0].value" ></textarea>
+        </label>
+
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address_geo.und[0].value" placeholder="Geocode address">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address_geo.und[0].geom.lat" placeholder="Latitude">
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address_geo.und[0].geom.lon" placeholder="Longitude">
+        </label> 
 
         <div>
           <div class="row">

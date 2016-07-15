@@ -82,6 +82,33 @@
     });  
     // For Fetching Business Category End 
 
+    // For Fetching Keywords Category Start
+    vm.keywords = {};
+    BusinessFeedService.getAllKeywords().then(
+    function (allTerms) {
+        vm.keywords = allTerms;
+        //alert(JSON.stringify(vm.keywords));
+    },
+    function (data) {
+        //Stop the ion-refresher from spinning
+        //$scope.$broadcast('scroll.refreshComplete');
+    });  
+    // For Fetching Business Category End 
+
+
+    // For Fetching Chiefdoms Category Start
+    vm.chiefdoms = {};
+    BusinessFeedService.getAllChiefdoms().then(
+    function (allTerms) {
+        vm.chiefdoms = allTerms;
+        //alert(JSON.stringify(vm.chiefdoms));
+    },
+    function (data) {
+        //Stop the ion-refresher from spinning
+        //$scope.$broadcast('scroll.refreshComplete');
+    });  
+    // For Fetching Chiefdoms Category End 
+
     //new node
     vm.newImage = {};
     vm.newBusiness = {};
@@ -144,16 +171,20 @@
         "title":"test",
         "field_ltc_biz_telephone":{"und":[{"value":"123123123123"}]},
         "field_ltc_biz_email":{"und":[{"email":"test@gmail.com"}]},
-        "field_ltc_biz_website":{"und":[{"value":"www.google.com"}]},
+        "field_ltc_biz_website":{"und":[{"url":"www.google.com"}]},
+        "field_ltc_biz_chiefdom": {"und":3},
+        "field_ltc_biz_keywords": {"und":873},
         "field_ltc_biz_admin_location":{"und":[{"tid":""}]},
-        "field_ltc_biz_address":{"und":[{"thoroughfare":"201", "locality":"test"}]},
+        "field_ltc_biz_address":{"und":[{"thoroughfare":"thoroughfare", "premise":"premise", "locality":"locality"}]},
+        "field_ltc_biz_description":{"und":[{"value":"Say something nice about your business. This is your opportunity to tell it all."}]},
+        "field_ltc_biz_address_geo":{"und":[{"value":"", "geom": {"lat": ""}, "geom": {"lon": ""}}]},
         "field_ltc_biz_admin_location":{"und":[{"tid":"123"}]},
         "field_ltc_biz_business_hours":{"und":{"1":10, "3":10, "5":10, "7":10, "9":10, "10":10, "11":10, "12":10, "13":10}},
         "field_image": {base64: false}
         }
       );
 
-alert(JSON.stringify(vm.newBusiness));
+      //alert(JSON.stringify(vm.newBusiness));
 
       vm.createModal.show();
     };
@@ -164,7 +195,7 @@ alert(JSON.stringify(vm.newBusiness));
     };
 
     function saveBusiness(business) {
-      alert(JSON.stringify(business));
+      //alert(JSON.stringify(business));
       vm.savingBusiness = true;
       BusinessFeedService
         .saveBusiness(business)

@@ -53,27 +53,57 @@
         <p>
           <strong>Comments</strong>
           <ion-item ng-repeat="($index, comment) in businessDetail.comments.data">
+
+             
              <strong>Title:</strong> {{comment.subject}} <br/>
              <strong>By:</strong> {{comment.name}} <br/>
              <strong>Rating:</strong> {{comment.field_ltc_biz_rating.und[0].rating}} <br/>
              <strong>Body:</strong> {{comment.comment_body.und[0].value}} <br/>
-
           </ion-item>
         </p>
         <p>
-               <strong>Add New Comment</strong>
-
-               <label class="item item-input">
+                <a href="javascript:;" ng-click="addComment = ! addComment">Add new comment </a>
+        </p>
+        <div ng-show="addComment">
+             <label class="item item-input">
                   <input type="text" ng-model="newComment.subject" placeholder="Subject">
-               </label>
+             </label>
 
-               <textarea rows="6" placeholder="Body" type="text" ng-model="newComment.comment_body" ></textarea>
+             <jk-rating-stars max-rating="5" rating="newComment.rating" read-only="ctrl.readOnly" on-rating="ctrl.onRating(rating)"></jk-rating-stars>
+
+             <textarea rows="6" placeholder="Body" type="text" ng-model="newComment.comment_body" ></textarea>
+             <div>
+                  <div class="row">
+                    <div class="col-50">
+                      <img class="articles-image" ng-model="newComment.field_image" ng-src="{{newComment.field_image.und[0].imgPath}}"
+                           ng-if="newComment.field_image.und[0].imgPath && newComment.field_image.base64 == false"/>
+
+                      <div class="articles-image"
+                           style=" background-image:url(data:image/jpeg;base64,{{newComment.field_image.base64}})"
+                           ng-if="!newComment.field_image.und[0].imgPath" ng-model="newComment.field_image"></div>
+                    </div>
+                    <div class="col-50">
+                      <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                              ng-class="{ true:'disabled' }[!newComment.field_image.base64]"
+                              ng-click="newComment.field_image.base64 = false">
+                        Delete
+                      </button>
+
+                      <button type="submit" ng-click="newComment.takeImage()"
+                              class="button button-block button-positive icon-left ion-camera">
+                        <span ng-if="newComment.field_image.base64">Retake</span>
+                        <span ng-if="!newComment.field_image.base64">Take</span>
+                      </button>
+                    </div>
+                  </div>
+            </div> 
+
                 <button type="submit"
                 ng-click="businessDetail.createComment(businessDetail.nid, newComment)"
                 class="button button-block button-positive button-spinner">
                 Add Comment
                 </button>
-        </p>
+        </div>
       </div>
     </div>
 

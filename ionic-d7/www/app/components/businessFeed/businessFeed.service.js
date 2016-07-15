@@ -36,12 +36,33 @@
     //stored business category
     var business_categories = [];
 
+    //Options for indexing keywords category
+    var viewsOptions_kw = {};
+    viewsOptions_kw.view_name = 'list_keywords_term';
+    viewsOptions_kw.page = 0;
+    viewsOptions_kw.pagesize = 25;
+    viewsOptions_kw.format_output = '0';
+
+    //stored keywords category
+    var keywords = [];
+
+    //Options for indexing chiefdoms category
+    var viewsOptions_cd = {};
+    viewsOptions_cd.view_name = 'list_chiefdoms_term';
+    viewsOptions_cd.page = 0;
+    viewsOptions_cd.pagesize = 25;
+    viewsOptions_cd.format_output = '0';
+
+    //stored chiefdoms category
+    var chiefdoms = [];
+    
     //businessFeed service object
     var businessFeedService = {
       init: init,
       getAll: getAll,
       getAllBusinessCat: getAllBusinessCat,
-      retreiveBusinessCategory: retreiveBusinessCategory,
+      getAllKeywords: getAllKeywords,
+      getAllChiefdoms: getAllChiefdoms,
       get: get,
       loadRecent: loadRecent,
       loadMore: loadMore,
@@ -330,7 +351,7 @@
     }
 
       
-    //returns all taxonomy
+    //returns all business terms
     //@TODO implement exposed filters for request and cache like in get
     function getAllBusinessCat() {
       console.log("getAllBusinessCat");
@@ -353,7 +374,7 @@
     }
 
 
-    //retrieves taxonomy from services and handle pagination
+    //retrieves business terms from services and handle pagination
     function retreiveBusinessCategory() {
       console.log("retreiveBusinessCategory");
       console.log("viewsOptions_bc: " + JSON.stringify(viewsOptions_bc));
@@ -387,6 +408,128 @@
       );
 
       return defer_bc.promise;
+
+    }
+
+    
+    //returns all keywords terms
+    //@TODO implement exposed filters for request and cache like in get
+    function getAllKeywords() {
+      console.log("getAllKeywords");
+      var defer_kw = $q.defer(),
+      allTaxonomy = undefined;
+      if (keywords.length > 0) {
+        allTaxonomy = keywords;
+      } else {
+        allTaxonomy = undefined;
+      }
+
+      if (allTaxonomy != undefined) {
+        defer_kw.resolve(allTaxonomy);
+      }
+      else {
+        return retreiveKeywords(viewsOptions_kw);
+      }
+
+      return defer_kw.promise;
+    }
+
+
+    //retrieves keywords terms from services and handle pagination
+    function retreiveKeywords() {
+      console.log("retreiveKeywords");
+      console.log("viewsOptions: " + JSON.stringify(viewsOptions_kw));
+      console.log("paginationOptions: " + JSON.stringify(paginationOptions));
+      paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
+      var defer_kw = $q.defer();
+      ViewsResource
+        .retrieve(viewsOptions_kw)
+        .then(
+        function (response) {
+          if (response.data.length != 0) {   
+            keywords = response.data;
+            alert(JSON.stringify(keywords));
+            //business_categories = mergeItems(response.data, keywords, undefined, prepareBusiness);
+            //return business_categories;
+          }
+
+          if (response.data.length == 0) {
+            viewsOptions_kw.page--;
+            paginationOptions.pageLast = viewsOptions_kw.page;
+            paginationOptions.maxPage = viewsOptions_kw.page;
+          }
+
+          defer_kw.resolve(keywords);
+        }
+      )
+        .catch(
+        function (error) {
+          defer_kw.reject(error);
+        }
+      );
+
+      return defer_kw.promise;
+
+    }
+
+    
+    //returns all chiefdoms terms
+    //@TODO implement exposed filters for request and cache like in get
+    function getAllChiefdoms() {
+      console.log("getAllChiefdoms");
+      var defer_cd = $q.defer(),
+      allTaxonomy = undefined;
+      if (chiefdoms.length > 0) {
+        allTaxonomy = chiefdoms;
+      } else {
+        allTaxonomy = undefined;
+      }
+
+      if (allTaxonomy != undefined) {
+        defer_cd.resolve(allTaxonomy);
+      }
+      else {
+        return retreiveChiefdoms(viewsOptions_cd);
+      }
+
+      return defer_cd.promise;
+    }
+
+
+    //retrieves chiefdoms terms from services and handle pagination
+    function retreiveChiefdoms() {
+      console.log("retreiveChiefdoms");
+      console.log("viewsOptions: " + JSON.stringify(viewsOptions_cd));
+      console.log("paginationOptions: " + JSON.stringify(paginationOptions));
+      paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
+      var defer_cd = $q.defer();
+      ViewsResource
+        .retrieve(viewsOptions_cd)
+        .then(
+        function (response) {
+          if (response.data.length != 0) {   
+            chiefdoms = response.data;
+            alert(JSON.stringify(chiefdoms));
+            //business_categories = mergeItems(response.data, keywords, undefined, prepareBusiness);
+            //return business_categories;
+          }
+
+          if (response.data.length == 0) {
+            viewsOptions_cd.page--;
+            paginationOptions.pageLast = viewsOptions_cd.page;
+            paginationOptions.maxPage = viewsOptions_cd.page;
+          }
+
+          defer_cd.resolve(chiefdoms);
+        }
+      )
+        .catch(
+        function (error) {
+          defer_cd.reject(error);
+        }
+      );
+
+      return defer_cd.promise;
 
     };
 
