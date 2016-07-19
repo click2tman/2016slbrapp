@@ -5,15 +5,16 @@
     .module('drupalionicDemo.businessFeed.businessDetail.controller', [])
     .controller('BusinessDetailController', BusinessDetailController);
 
-  BusinessDetailController.$inject = ['$scope', '$stateParams', 'UserResource', 'NodeResource', 'CommentResource', 'TaxonomyTermResource','DrupalHelperService', 'businessDetail']
+  BusinessDetailController.$inject = ['$state', '$scope', '$stateParams', 'UserResource', 'NodeResource', 'CommentResource', 'TaxonomyTermResource','DrupalHelperService', 'businessDetail']
 
-  function BusinessDetailController($scope, $stateParams, UserResource, NodeResource, CommentResource, TaxonomyTermResource, DrupalHelperService, businessDetail) {
+  function BusinessDetailController($state, $scope, $stateParams, UserResource, NodeResource, CommentResource, TaxonomyTermResource, DrupalHelperService, businessDetail) {
 
     var vm = this;
 
     vm.viewTitle = $stateParams.title;
     vm = angular.extend(vm, businessDetail);
     vm.pathToImg = false;
+    vm.flagAddReview = false;
 
     //vm.user = undefined;
     vm.pathToUserImg = false;
@@ -34,6 +35,8 @@
      function() {}
      );
      }*/  
+
+     
      
      bizcatdata = {};
      bizcatdata.tid = businessDetail.field_ltc_biz_category.und[0].tid;
@@ -59,7 +62,10 @@
              }
      );
  
-     
+     vm.showWriteReview = function showWriteReview() {
+        vm.flagAddReview = true;
+        alert(vm.flagAddReview);
+     }
      vm.comments = {};
      vm.loadingComments = false;
      NodeResource.comments(businessDetail).then(
@@ -73,6 +79,17 @@
              }
      );
      
+
+    vm.doRefreshComments = function doRefresh(data) {
+       NodeResource.comments(data).then(
+        function (allComments) {
+          vm.comments = allComments;
+        },
+        function (data) {
+        });
+    };
+
+
      $scope.newComment = {};
      vm.createComment = function(nid, newComment) {
           //alert(JSON.stringify(newComment));
@@ -81,8 +98,18 @@
                 "comment_body":{"und":[{"value": newComment.comment_body}]},
                 "field_ltc_biz_rating": {"und":[{"rating": (newComment.rating * 20)}]}
                 }
-
-          CommentResource.create(data);
+          
+          newComment.subject = '';
+          newComment.comment_body = '';
+          newComment.rating = 0;
+          CommentResource.create(data).then(
+                function (data) {
+                       var node = data.config.data.comment;
+                       vm.doRefreshComments(node);
+                },
+                function (data) {
+                });
+                   
           /*newComment.field_image = {};
           return trySaveOptionalImage(newComment)
                 .then(
@@ -129,7 +156,6 @@
         return $q.reject(false);
 
       }
-
      /*vm.loadingComments = false;
      vm.loadComments = function (numOfNodes, node) {
              if(numOfNodes > 0) {

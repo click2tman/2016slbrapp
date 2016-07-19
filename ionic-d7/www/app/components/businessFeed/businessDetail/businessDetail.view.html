@@ -9,7 +9,6 @@
 
   </ion-nav-bar>
 
-
   <ion-content>
     <div class="list card">
       <div class="item" ng-class="businessDetail.pathToUserImg !== false?'item-avatar':''">
@@ -51,7 +50,7 @@
           <p><strong>Description:</strong> {{businessDetail.field_ltc_biz_description.und[0].value}}</p>
         </p>
         <p>
-          <strong>Comments</strong>
+          <strong>Reviews</strong>
           <ion-item ng-repeat="($index, comment) in businessDetail.comments.data">
 
              
@@ -62,16 +61,19 @@
           </ion-item>
         </p>
         <p>
-                <a href="javascript:;" ng-click="addComment = ! addComment">Add new comment </a>
+                <a href="javascript:;" ng-click="addComment = ! addComment">Write a Review</a>
         </p>
-        <div ng-show="addComment">
-             <label class="item item-input">
-                  <input type="text" ng-model="newComment.subject" placeholder="Subject">
-             </label>
-
+        <div ng-show="addComment"> 
+             <strong>Subject: </strong>
+             <input type="text" ng-model="newComment.subject" placeholder="Subject"> 
+             
+             <strong>Ratings: </strong>
              <jk-rating-stars max-rating="5" rating="newComment.rating" read-only="ctrl.readOnly" on-rating="ctrl.onRating(rating)"></jk-rating-stars>
-
-             <textarea rows="6" placeholder="Body" type="text" ng-model="newComment.comment_body" ></textarea>
+             
+             <strong>Review: </strong>
+             <textarea rows="6" placeholder="Review" type="text" ng-model="newComment.comment_body" ></textarea>
+             
+             <strong>Photos: </strong>
              <div>
                   <div class="row">
                     <div class="col-50">
@@ -101,7 +103,7 @@
                 <button type="submit"
                 ng-click="businessDetail.createComment(businessDetail.nid, newComment)"
                 class="button button-block button-positive button-spinner">
-                Add Comment
+                Save
                 </button>
         </div>
       </div>

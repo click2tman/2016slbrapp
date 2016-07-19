@@ -11,6 +11,7 @@
     <form>
       <div class="list">
         <label class="item item-input">
+           <strong>Category: </strong>
            <select name="businessCategory" id="businessCategory" ng-model="businessFeed.newBusiness.field_ltc_biz_category.und">
              <option value="">Select Category</option>
              <option ng-repeat="option in businessFeed.business_categories" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
@@ -18,57 +19,101 @@
         </label>
         
         <label class="item item-input">
+           <strong>Title: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.title" placeholder="Title">
         </label>
 
         <label class="item item-input">
+           <strong>Telephone: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_telephone.und[0].value" placeholder="Telephone">
         </label>
 
         <label class="item item-input">
+           <strong>Email: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_email.und[0].email" placeholder="Email">
         </label>
 
         <label class="item item-input">
+           <strong>Website: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_website.und[0].url" placeholder="Website">
         </label>
         <label class="item item-input">
+           <strong>Chiefdom: </strong>
            <select name="businessChiefdom" id="businessChiefdom" ng-model="businessFeed.newBusiness.field_ltc_biz_chiefdoms.und">
              <option value="">Select Chiefdom</option>
              <option ng-repeat="option in businessFeed.chiefdoms" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
            </select>
         </label>
         <label class="item item-input">
+           <strong>Keywords: </strong>
            <select name="businessKeywords" id="businessKeywords" ng-model="businessFeed.newBusiness.field_ltc_biz_keywords.und">
              <option value="">Select Keywords</option>
              <option ng-repeat="option in businessFeed.keywords" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
            </select>
         </label>
-
+        
+        
+        <strong>Postal Address</strong><br/>
         <label class="item item-input">
+           <strong>Address 1: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address.und[0].thoroughfare" placeholder="Address 1">
         </label>
         <label class="item item-input">
+           <strong>Address 2: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address.und[0].premise" placeholder="Address 2">
         </label>
         <label class="item item-input">
+           <strong>City: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address.und[0].locality" placeholder="City">
         </label>
+
+       
         <label class="item item-input">
+           <strong>Description: </strong>
           <textarea rows="6" placeholder="Body" type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_description.und[0].value" ></textarea>
         </label>
 
+        <strong>Hours</strong><br/>
+ 
+        <div ng-repeat="option in businessFeed.days" value="{{option.day_id}}">
+                <strong>{{option.day_name}}</strong>
+                <input type="text" name="day" id="day_{{option.day_id}}" value="{{option.day_id}}" />
+                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours[option.day_id].starthours">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_minutes">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessFeed.minutes" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <strong>To</strong>
+                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessFeed.minutes" value="{{option.value}}">{{option.title}}</option>
+                </select> 
+        </div>
+
+        <strong>Location Longitude and Latitude</strong><br/>     
         <label class="item item-input">
+           <strong>Geocode address: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address_geo.und[0].value" placeholder="Geocode address">
         </label>
         <label class="item item-input">
+           <strong>Latitude: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address_geo.und[0].geom.lat" placeholder="Latitude">
         </label>
         <label class="item item-input">
+           <strong>Longitude: </strong>
           <input type="text" ng-model="businessFeed.newBusiness.field_ltc_biz_address_geo.und[0].geom.lon" placeholder="Longitude">
         </label> 
-
+        
+        <strong>Paid Subscription Fields</strong><br/>
         <div>
+          <strong>Banner Image: </strong>
           <div class="row">
             <div class="col-50">
               <img class="businesses-image" ng-src="{{businessFeed.newBusiness.field_image.und[0].imgPath}}"
@@ -93,7 +138,67 @@
               </button>
             </div>
           </div>
+        </div>
+        <div>
+          <strong>Photos: </strong>
+          <div class="row">
+            <div class="col-50">
+              <img class="businesses-image" ng-src="{{businessFeed.newBusiness.photos.und[0].imgPath}}"
+                   ng-if="businessFeed.newBusiness.photos.und[0].imgPath && businessFeed.newBusiness.photos.base64 == false"/>
 
+              <div class="businesses-image"
+                   style=" background-image:url(data:image/jpeg;base64,{{businessFeed.newBusiness.photos.base64}})"
+                   ng-if="!businessFeed.newBusiness.photos.und[0].imgPath"></div>
+            </div>
+            <div class="col-50">
+              <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                      ng-class="{ true:'disabled' }[!businessFeed.newBusiness.photos.base64 || businessFeed.savingBusiness]"
+                      ng-click="businessFeed.newBusiness.photos.base64 = false">
+                Delete
+              </button>
+
+              <button type="submit" ng-click="businessFeed.takeImage()"
+                      class="button button-block button-positive icon-left ion-camera"
+                      ng-class="{ true:'disabled' }[businessFeed.savingBusiness]">
+                <span ng-if="businessFeed.newBusiness.photos.base64">Retake</span>
+                <span ng-if="!businessFeed.newBusiness.photos.base64">Take</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <label class="item item-input">
+           <strong>Member Type: </strong>
+           <select name="memberType" id="memberType" ng-model="businessFeed.newBusiness.field_ltc_biz_member_type.und">
+             <option value="">Select Member Type</option>
+             <option ng-repeat="option in businessFeed.member_type" value="{{option.tid}}">{{option.term_name}}</option>
+           </select>
+        </label>        
+        <div>
+          <strong>Logo: </strong>
+          <div class="row">
+            <div class="col-50">
+              <img class="businesses-image" ng-src="{{businessFeed.newBusiness.logo.und[0].imgPath}}"
+                   ng-if="businessFeed.newBusiness.logo.und[0].imgPath && businessFeed.newBusiness.logo.base64 == false"/>
+
+              <div class="businesses-image"
+                   style=" background-image:url(data:image/jpeg;base64,{{businessFeed.newBusiness.logo.base64}})"
+                   ng-if="!businessFeed.newBusiness.logo.und[0].imgPath"></div>
+            </div>
+            <div class="col-50">
+              <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                      ng-class="{ true:'disabled' }[!businessFeed.newBusiness.logo.base64 || businessFeed.savingBusiness]"
+                      ng-click="businessFeed.newBusiness.logo.base64 = false">
+                Delete
+              </button>
+
+              <button type="submit" ng-click="businessFeed.takeImage()"
+                      class="button button-block button-positive icon-left ion-camera"
+                      ng-class="{ true:'disabled' }[businessFeed.savingBusiness]">
+                <span ng-if="businessFeed.newBusiness.logo.base64">Retake</span>
+                <span ng-if="!businessFeed.newBusiness.logo.base64">Take</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="padding">

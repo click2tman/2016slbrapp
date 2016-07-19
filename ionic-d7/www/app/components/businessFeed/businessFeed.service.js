@@ -448,7 +448,7 @@
         function (response) {
           if (response.data.length != 0) {   
             keywords = response.data;
-            alert(JSON.stringify(keywords));
+            //alert(JSON.stringify(keywords));
             //business_categories = mergeItems(response.data, keywords, undefined, prepareBusiness);
             //return business_categories;
           }
@@ -509,7 +509,7 @@
         function (response) {
           if (response.data.length != 0) {   
             chiefdoms = response.data;
-            alert(JSON.stringify(chiefdoms));
+            //alert(JSON.stringify(chiefdoms));
             //business_categories = mergeItems(response.data, keywords, undefined, prepareBusiness);
             //return business_categories;
           }

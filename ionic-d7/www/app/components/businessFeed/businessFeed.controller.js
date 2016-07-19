@@ -21,7 +21,6 @@
     $scope.$on("$stateChangeSuccess", function () {
       vm.loadingDetail = false;
     });
-
     ///////////////////////////////
 
     /* List view */
@@ -158,6 +157,69 @@
     function openCreateModal(business, linstIndex) {
       vm.newBusiness = {};
       vm.businessModalMode = 'create';
+      
+      // Member Types...
+      vm.member_type = [];
+      var member_type_term = ["business", "silver", "gold", "diamond"];
+      for (i = 0; i < 4; i += 1) {
+           member_type = {
+               'tid': i,
+               'term_name': member_type_term[i]
+           };
+           vm.member_type.push(member_type);
+      }
+      alert(JSON.stringify(vm.member_type));
+
+      // Days...
+      vm.days = [];
+      var days_name = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+      for (i = 0; i < 7; i += 1) {
+           day = {
+               'day_id': i,
+               'day_name': days_name[i]
+           };
+           vm.days.push(day);
+      }
+      alert(JSON.stringify(vm.days));
+
+      vm.int_day = [];
+      var j = 0;
+      for (i = 1; i <= 13; i += 1) {
+        if(i % 2 != 0) {
+           int_day = {
+               'int_day_id': j,
+               'int_day_index': i
+           };
+           j++;
+           vm.int_day.push(i);
+        }
+      } 
+      alert(JSON.stringify(vm.int_day));
+
+      // Hours...
+      vm.hours = [];
+      for (i = 0; i < 24; i += 1) {
+           hours = {
+               'title': ((i < 10) ? "0" + i : i),
+               'value': (i * 100)
+           };
+
+           vm.hours.push(hours);
+      } 
+      alert(JSON.stringify(vm.hours));
+        
+      // Minutes...
+      vm.minutes = [];
+      for (i = 0; i < 1; i += 1) {
+           minute = {
+               'title': ((i < 10) ? "0" + i : i),
+               'value': (i * 100)
+           };
+
+           vm.minutes.push(minute);
+      } 
+      alert(JSON.stringify(vm.minutes));
+
 
       //setup drupal field structure
       vm.newBusiness = angular.extend(vm.newBusiness, /*{
@@ -179,7 +241,8 @@
         "field_ltc_biz_description":{"und":[{"value":"Say something nice about your business. This is your opportunity to tell it all."}]},
         "field_ltc_biz_address_geo":{"und":[{"value":"", "geom": {"lat": ""}, "geom": {"lon": ""}}]},
         "field_ltc_biz_admin_location":{"und":[{"tid":"123"}]},
-        "field_ltc_biz_business_hours":{"und":{"1":10, "3":10, "5":10, "7":10, "9":10, "10":10, "11":10, "12":10, "13":10}},
+        "field_ltc_biz_business_hours":{"und":{"1":800, "3":800, "5":800, "7":800, "9":800, "10":800, "11":800, "12":800, "13":800}},
+        "field_ltc_biz_member_type": {"und": "0"},
         "field_image": {base64: false}
         }
       );
