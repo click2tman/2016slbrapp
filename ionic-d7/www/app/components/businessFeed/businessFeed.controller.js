@@ -92,7 +92,36 @@
         //Stop the ion-refresher from spinning
         //$scope.$broadcast('scroll.refreshComplete');
     });  
-    // For Fetching Business Category End 
+    // For Fetching Keywords Category End 
+
+    // For Fetching Child Keywords Category Start
+    vm.keywords_level1 = {};
+    vm.keywords_level2 = {};
+    vm.getChildKeywords = function(parent_term_id, level) {
+                                    //alert("Parent Term ID: " + parent_term_id);
+                                    var viewsOptions = {};
+                                    viewsOptions.view_name = 'list_keywords_term';
+                                    viewsOptions.page = 0;
+                                    viewsOptions.pagesize = 25;
+                                    viewsOptions.format_output = '0';
+                                    viewsOptions.parent_term_id = parent_term_id; 
+                                    BusinessFeedService.getAllChildterm(viewsOptions).then(
+                                    function (allTerms) {
+                                        if(level == 1) {
+                                                vm.keywords_level1 = allTerms;
+                                                //alert(JSON.stringify(vm.keywords_level1));
+                                        }
+                                        else if(level == 2) {
+                                                vm.keywords_level2 = allTerms;
+                                                //alert(JSON.stringify(vm.keywords_level2));
+                                        }
+                                    },
+                                    function (data) {
+                                        //Stop the ion-refresher from spinning
+                                        //$scope.$broadcast('scroll.refreshComplete');
+                                    });
+                            }
+    // For Fetching Child Keywords Category End
 
 
     // For Fetching Chiefdoms Category Start
@@ -106,7 +135,37 @@
         //Stop the ion-refresher from spinning
         //$scope.$broadcast('scroll.refreshComplete');
     });  
-    // For Fetching Chiefdoms Category End 
+    // For Fetching Chiefdoms Category End
+
+    // For Fetching Child Chiefdoms Category Start
+    vm.chiefdoms_level1 = {};
+    vm.chiefdoms_level2 = {};
+    vm.getChildChiefdom = function(parent_term_id, level) {
+                                    //alert("Parent Term ID: " + parent_term_id);
+                                    var viewsOptions = {};
+                                    viewsOptions.view_name = 'list_chiefdoms_term'; ///' + parent_term_id;
+                                    viewsOptions.page = 0;
+                                    viewsOptions.pagesize = 25;
+                                    viewsOptions.format_output = '0';
+                                    viewsOptions.parent_term_id = parent_term_id; 
+                                    BusinessFeedService.getAllChildterm(viewsOptions).then(
+                                    function (allTerms) {
+                                        if(level == 1) {
+                                                vm.chiefdoms_level1 = allTerms;
+                                                //alert(JSON.stringify(vm.chiefdoms_level1));
+                                        }
+                                        else if(level == 2) {
+                                                vm.chiefdoms_level2 = allTerms;
+                                                //alert(JSON.stringify(vm.chiefdoms_level2));
+                                        }
+                                    },
+                                    function (data) {
+                                        //Stop the ion-refresher from spinning
+                                        //$scope.$broadcast('scroll.refreshComplete');
+                                    });
+                            }
+    // For Fetching Child Chiefdoms Category End
+ 
 
     //new node
     vm.newImage = {};
@@ -168,7 +227,7 @@
            };
            vm.member_type.push(member_type);
       }
-      alert(JSON.stringify(vm.member_type));
+      //alert(JSON.stringify(vm.member_type));
 
       // Days...
       vm.days = [];
@@ -180,7 +239,7 @@
            };
            vm.days.push(day);
       }
-      alert(JSON.stringify(vm.days));
+      //alert(JSON.stringify(vm.days));
 
       vm.int_day = [];
       var j = 0;
@@ -194,7 +253,7 @@
            vm.int_day.push(i);
         }
       } 
-      alert(JSON.stringify(vm.int_day));
+      //alert(JSON.stringify(vm.int_day));
 
       // Hours...
       vm.hours = [];
@@ -206,7 +265,7 @@
 
            vm.hours.push(hours);
       } 
-      alert(JSON.stringify(vm.hours));
+      //alert(JSON.stringify(vm.hours));
         
       // Minutes...
       vm.minutes = [];
@@ -218,7 +277,7 @@
 
            vm.minutes.push(minute);
       } 
-      alert(JSON.stringify(vm.minutes));
+      //alert(JSON.stringify(vm.minutes));
 
 
       //setup drupal field structure
@@ -234,14 +293,26 @@
         "field_ltc_biz_telephone":{"und":[{"value":"123123123123"}]},
         "field_ltc_biz_email":{"und":[{"email":"test@gmail.com"}]},
         "field_ltc_biz_website":{"und":[{"url":"www.google.com"}]},
-        "field_ltc_biz_chiefdom": {"und":3},
-        "field_ltc_biz_keywords": {"und":873},
-        "field_ltc_biz_admin_location":{"und":[{"tid":""}]},
+        "field_ltc_biz_admin_location": {"und":[{"tid":""}]},
+        "field_ltc_business_keywords": {"und":[{"tid":""}]},
         "field_ltc_biz_address":{"und":[{"thoroughfare":"thoroughfare", "premise":"premise", "locality":"locality"}]},
         "field_ltc_biz_description":{"und":[{"value":"Say something nice about your business. This is your opportunity to tell it all."}]},
-        "field_ltc_biz_address_geo":{"und":[{"value":"", "geom": {"lat": ""}, "geom": {"lon": ""}}]},
-        "field_ltc_biz_admin_location":{"und":[{"tid":"123"}]},
-        "field_ltc_biz_business_hours":{"und":{"1":800, "3":800, "5":800, "7":800, "9":800, "10":800, "11":800, "12":800, "13":800}},
+        "field_ltc_biz_address_geo":{"und":[{"value":"", "geom": {"lat": ""}, "geom": {"lon": ""}}]}, 
+        "field_ltc_biz_business_hours":{"und":[{"day": "1", "starthours": "100", "endhours": "200"}, 
+                                                {"day": "2", "starthours": "300", "endhours": "400"}, 
+                                                {"day": "3", "starthours": "500", "endhours": "600"}, 
+                                                {"day": "4", "starthours": "700", "endhours": "800"}, 
+                                                {"day": "5", "starthours": "900", "endhours": "1000"}, 
+                                                {"day": "6", "starthours": "1000", "endhours": "1100"}, 
+                                                {"day": "7", "starthours": "1200", "endhours": "1300"}, 
+                                                {"day": "8", "starthours": "1400", "endhours": "1500"}, 
+                                                {"day": "9", "starthours": "1600", "endhours": "1700"}, 
+                                                {"day": "10", "starthours": "1800", "endhours": "1900"}, 
+                                                {"day": "11", "starthours": "2000", "endhours": "2100"}, 
+                                                {"day": "12", "starthours": "2200", "endhours": "2300"}, 
+                                                {"day": "13", "starthours": "100", "endhours": "200"}, 
+                                                {"day": "14", "starthours": "300", "endhours": "400"}]
+                                      },
         "field_ltc_biz_member_type": {"und": "0"},
         "field_image": {base64: false}
         }

@@ -39,16 +39,41 @@
         </label>
         <label class="item item-input">
            <strong>Chiefdom: </strong>
-           <select name="businessChiefdom" id="businessChiefdom" ng-model="businessFeed.newBusiness.field_ltc_biz_chiefdoms.und">
+           <select name="businessChiefdom" id="businessChiefdom" ng-model="businessFeed.newBusiness.field_ltc_biz_admin_location.level0" 
+                ng-change="businessFeed.getChildChiefdom(businessFeed.newBusiness.field_ltc_biz_admin_location.level0, 1)">
              <option value="">Select Chiefdom</option>
              <option ng-repeat="option in businessFeed.chiefdoms" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>   
+
+           <select name="businessChiefdom_level1" id="businessChiefdom_level1" ng-model="businessFeed.newBusiness.field_ltc_biz_admin_location.level1" 
+                ng-change="businessFeed.getChildChiefdom(businessFeed.newBusiness.field_ltc_biz_admin_location.level1, 2)">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessFeed.chiefdoms_level1" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+
+           <select name="businessChiefdom_level2" id="businessChiefdom_level2" ng-model="businessFeed.newBusiness.field_ltc_biz_admin_location.und[0].tid">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessFeed.chiefdoms_level2" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
            </select>
         </label>
+
         <label class="item item-input">
            <strong>Keywords: </strong>
-           <select name="businessKeywords" id="businessKeywords" ng-model="businessFeed.newBusiness.field_ltc_biz_keywords.und">
+           <select name="businessKeywords" id="businessKeywords" ng-model="businessFeed.newBusiness.field_ltc_business_keywords.level0" 
+                ng-change="businessFeed.getChildKeywords(businessFeed.newBusiness.field_ltc_business_keywords.level0, 1)">
              <option value="">Select Keywords</option>
              <option ng-repeat="option in businessFeed.keywords" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+
+           <select name="businessKeywords_level1" id="businessKeywords_level1" ng-model="businessFeed.newBusiness.field_ltc_business_keywords.level1" 
+                ng-change="businessFeed.getChildKeywords(businessFeed.newBusiness.field_ltc_business_keywords.level1, 2)">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessFeed.keywords_level1" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+
+           <select name="businessKeywords_level1" id="businessKeywords_level1" ng-model="businessFeed.newBusiness.field_ltc_business_keywords.und[0].tid">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessFeed.keywords_level2" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
            </select>
         </label>
         
@@ -76,9 +101,9 @@
         <strong>Hours</strong><br/>
  
         <div ng-repeat="option in businessFeed.days" value="{{option.day_id}}">
-                <strong>{{option.day_name}}</strong>
-                <input type="text" name="day" id="day_{{option.day_id}}" value="{{option.day_id}}" />
-                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours[option.day_id].starthours">
+                <strong>{{option.day_name}} -  {{$index + 1}}</strong>
+                <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].starthours">
                      <option value=""></option>
                      <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
                 </select>
@@ -87,7 +112,7 @@
                      <option ng-repeat="option in businessFeed.minutes" value="{{option.value}}">{{option.title}}</option>
                 </select>
                 <strong>To</strong>
-                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours">
+                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].endhours">
                      <option value=""></option>
                      <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
                 </select>

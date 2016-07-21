@@ -42,6 +42,7 @@
     viewsOptions_kw.page = 0;
     viewsOptions_kw.pagesize = 25;
     viewsOptions_kw.format_output = '0';
+    viewsOptions_kw.parent_term_id = '0'; 
 
     //stored keywords category
     var keywords = [];
@@ -52,9 +53,13 @@
     viewsOptions_cd.page = 0;
     viewsOptions_cd.pagesize = 25;
     viewsOptions_cd.format_output = '0';
+    viewsOptions_cd.parent_term_id = '0'; 
 
     //stored chiefdoms category
     var chiefdoms = [];
+
+    //stored child terms
+    var childterms = [];
     
     //businessFeed service object
     var businessFeedService = {
@@ -63,6 +68,7 @@
       getAllBusinessCat: getAllBusinessCat,
       getAllKeywords: getAllKeywords,
       getAllChiefdoms: getAllChiefdoms,
+      getAllChildterm: getAllChildterm,
       get: get,
       loadRecent: loadRecent,
       loadMore: loadMore,
@@ -475,7 +481,7 @@
     
     //returns all chiefdoms terms
     //@TODO implement exposed filters for request and cache like in get
-    function getAllChiefdoms() {
+    function getAllChiefdoms(parent_term_id = 0) {
       console.log("getAllChiefdoms");
       var defer_cd = $q.defer(),
       allTaxonomy = undefined;
@@ -489,7 +495,7 @@
         defer_cd.resolve(allTaxonomy);
       }
       else {
-        return retreiveChiefdoms(viewsOptions_cd);
+        return retreiveChiefdoms(parent_term_id);
       }
 
       return defer_cd.promise;
@@ -497,7 +503,10 @@
 
 
     //retrieves chiefdoms terms from services and handle pagination
-    function retreiveChiefdoms() {
+    function retreiveChiefdoms(parent_term_id) {
+      if(parent_term_id > 0) {
+        viewsOptions_kw.view_name += "/" + parent_term_id;
+      }
       console.log("retreiveChiefdoms");
       console.log("viewsOptions: " + JSON.stringify(viewsOptions_cd));
       console.log("paginationOptions: " + JSON.stringify(paginationOptions));
@@ -530,6 +539,62 @@
       );
 
       return defer_cd.promise;
+
+    }
+
+    //returns all child terms
+    //@TODO implement exposed filters for request and cache like in get
+    function getAllChildterm(viewsOptions) {
+      console.log("getAllChildterm");
+      var defer_ct = $q.defer(),
+      allTaxonomy = undefined;
+      
+
+      if (allTaxonomy != undefined) {
+        defer_ct.resolve(allTaxonomy);
+      }
+      else {
+        return retreiveChildterm(viewsOptions);
+      }
+
+      return defer_ct.promise;
+    }
+
+
+    //retrieves child terms from services and handle pagination
+    function retreiveChildterm(viewsOptions) { 
+      console.log("retreiveChildterm");
+      console.log("viewsOptions: " + JSON.stringify(viewsOptions));
+      console.log("paginationOptions: " + JSON.stringify(paginationOptions));
+      paginationOptions.pageLast = (paginationOptions.pageLast === undefined) ? 0 : paginationOptions.pageLast;
+      var defer_ct = $q.defer();
+      ViewsResource
+        .retrieve(viewsOptions)
+        .then(
+        function (response) {
+          if (response.data.length != 0) {   
+            childterms = response.data;
+            //alert(JSON.stringify(childterms));
+            //business_categories = mergeItems(response.data, keywords, undefined, prepareBusiness);
+            //return business_categories;
+          }
+
+          if (response.data.length == 0) {
+            viewsOptions_cd.page--;
+            paginationOptions.pageLast = viewsOptions_cd.page;
+            paginationOptions.maxPage = viewsOptions_cd.page;
+          }
+
+          defer_ct.resolve(childterms);
+        }
+      )
+      .catch(
+        function (error) {
+          defer_ct.reject(error);
+        }
+      );
+
+      return defer_ct.promise;
 
     };
 
