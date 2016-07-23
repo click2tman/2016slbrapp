@@ -46,6 +46,16 @@ $handler->display->display_options['fields']['tid']['field'] = 'tid';
 $handler->display->display_options['fields']['tid']['label'] = '';
 $handler->display->display_options['fields']['tid']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['tid']['separator'] = '';
+/* Contextual filter: Taxonomy term: Parent term */
+$handler->display->display_options['arguments']['parent']['id'] = 'parent';
+$handler->display->display_options['arguments']['parent']['table'] = 'taxonomy_term_hierarchy';
+$handler->display->display_options['arguments']['parent']['field'] = 'parent';
+$handler->display->display_options['arguments']['parent']['default_action'] = 'default';
+$handler->display->display_options['arguments']['parent']['default_argument_type'] = 'php';
+$handler->display->display_options['arguments']['parent']['default_argument_options']['code'] = 'return $_REQUEST[\'parent_term_id\'];';
+$handler->display->display_options['arguments']['parent']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['parent']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['parent']['summary_options']['items_per_page'] = '25';
 /* Filter criterion: Taxonomy vocabulary: Machine name */
 $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
 $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
