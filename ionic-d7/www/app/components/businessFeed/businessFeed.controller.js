@@ -68,6 +68,20 @@
     vm.takeImage = takeImage,
     vm.saveBusiness = saveBusiness;
     vm.deleteBusiness = deleteBusiness;
+        
+    /* Display add more button start */
+    $scope.add_more = [];
+    for (i = 0; i < 7; i += 1) {
+           addmore = {
+               'id': i,
+                'addmore': false
+           };
+           $scope.add_more.push(addmore);
+    }
+    $scope.showAddMore = function(objIndex) {
+        $scope.add_more[objIndex].addmore = true;
+    }
+    /* Display add more button end */
 
     // For Fetching Business Category Start
     vm.business_categories = {};
@@ -298,20 +312,20 @@
         "field_ltc_biz_address":{"und":[{"thoroughfare":"thoroughfare", "premise":"premise", "locality":"locality"}]},
         "field_ltc_biz_description":{"und":[{"value":"Say something nice about your business. This is your opportunity to tell it all."}]},
         "field_ltc_biz_address_geo":{"und":[{"value":"", "geom": {"lat": ""}, "geom": {"lon": ""}}]}, 
-        "field_ltc_biz_business_hours":{"und":[{"day": "1", "starthours": "100", "endhours": "200"}, 
-                                                {"day": "2", "starthours": "300", "endhours": "400"}, 
-                                                {"day": "3", "starthours": "500", "endhours": "600"}, 
-                                                {"day": "4", "starthours": "700", "endhours": "800"}, 
-                                                {"day": "5", "starthours": "900", "endhours": "1000"}, 
-                                                {"day": "6", "starthours": "1000", "endhours": "1100"}, 
-                                                {"day": "7", "starthours": "1200", "endhours": "1300"}, 
-                                                {"day": "8", "starthours": "1400", "endhours": "1500"}, 
-                                                {"day": "9", "starthours": "1600", "endhours": "1700"}, 
-                                                {"day": "10", "starthours": "1800", "endhours": "1900"}, 
-                                                {"day": "11", "starthours": "2000", "endhours": "2100"}, 
-                                                {"day": "12", "starthours": "2200", "endhours": "2300"}, 
-                                                {"day": "13", "starthours": "100", "endhours": "200"}, 
-                                                {"day": "14", "starthours": "300", "endhours": "400"}]
+        "field_ltc_biz_business_hours":{"und":[{"day": "1", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "2", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "3", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "4", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "5", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "6", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "0", "starthours": "", "endhours": "", "daydelta": "0"}, 
+                                                {"day": "1", "starthours": "", "endhours": "", "daydelta": "1"}, 
+                                                {"day": "2", "starthours": "", "endhours": "", "daydelta": "1"}, 
+                                                {"day": "3", "starthours": "", "endhours": "", "daydelta": "1"}, 
+                                                {"day": "4", "starthours": "", "endhours": "", "daydelta": "1"}, 
+                                                {"day": "5", "starthours": "", "endhours": "", "daydelta": "1"}, 
+                                                {"day": "6", "starthours": "", "endhours": "", "daydelta": "1"}, 
+                                                {"day": "0", "starthours": "", "endhours": "", "daydelta": "1"}]
                                       },
         "field_ltc_biz_member_type": {"und": "0"},
         "field_image": {base64: false}
@@ -336,6 +350,9 @@
         .then(
         function (data) {
           vm.doRefresh();
+          for (i = 0; i < 7; i += 1) {
+                $scope.add_more[i].addmore = false;
+          }
         }
       )
         .finally(

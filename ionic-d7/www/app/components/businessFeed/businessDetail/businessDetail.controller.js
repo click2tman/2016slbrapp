@@ -89,7 +89,10 @@
         });
     };
 
-
+     $scope.showAddComment = function() {
+        $scope.addComment = true;
+     }
+     $scope.addComment = false;
      $scope.newComment = {};
      vm.createComment = function(nid, newComment) {
           //alert(JSON.stringify(newComment));
@@ -105,7 +108,8 @@
           CommentResource.create(data).then(
                 function (data) {
                        var node = data.config.data.comment;
-                       vm.doRefreshComments(node);
+                       $scope.addComment = false; 
+                       vm.doRefreshComments(node); 
                 },
                 function (data) {
                 });

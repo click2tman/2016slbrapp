@@ -100,9 +100,16 @@
 
         <strong>Hours</strong><br/>
  
-        <div ng-repeat="option in businessFeed.days" value="{{option.day_id}}">
-                <strong>{{option.day_name}} -  {{$index + 1}}</strong>
-                <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].day" />
+        <div ng-repeat="option in businessFeed.days" value="{{option.day_id}}" ng-init="customIndex = $index">
+                <strong>{{option.day_name}}</strong>
+                <span ng-if="$index < 6">
+                        <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                </span>
+                <span ng-if="$index == 6">
+                        <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                </span>
+                <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="0" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].daydelta" />
+
                 <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].starthours">
                      <option value=""></option>
                      <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
@@ -119,7 +126,35 @@
                 <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
                      <option value=""></option>
                      <option ng-repeat="option in businessFeed.minutes" value="{{option.value}}">{{option.title}}</option>
-                </select> 
+                </select>
+                <a href="javascript:;" ng-click="showAddMore({{$index}})">Add More</a> 
+                <div ng-show="add_more[$index].addmore">
+                        <span ng-if="$index < 6">
+                                <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                        </span>
+                        <span ng-if="$index == 6">
+                                <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                        </span>
+                        <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="1" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[customIndex + 7].daydelta" />
+
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[customIndex + 7].starthours">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_minutes">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessFeed.minutes" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                        <strong>To</strong>
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours" ng-model="businessFeed.newBusiness.field_ltc_biz_business_hours.und[customIndex + 7].endhours">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessFeed.hours" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessFeed.minutes" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                </div>
         </div>
 
         <strong>Location Longitude and Latitude</strong><br/>     
