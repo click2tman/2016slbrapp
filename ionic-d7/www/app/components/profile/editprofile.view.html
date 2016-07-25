@@ -1,0 +1,35 @@
+<ion-view title="Edit Profile" id="edit-profile-view">
+  <ion-content class="ionic" on-scroll="true" has-bouncing="false">
+    <div id="profile-wrapper" class="text-center">
+      <div class="content">
+        <div id="profile-image">
+          <ion-spinner class="overlay-spinner spinner-positive " ng-if="profile.isLoading"></ion-spinner>
+          <div ng-if="!profile.isLoading" class="avatar"
+               style="background-image:url( {{ profile.pictureUrl || 'assets/images/default-avatar.png' }} )"/>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div>
+      <input type="hidden" value="{{profile.uid}}" ng-model="profile.editProfile.uid" />
+      <strong>Name: </strong> {{profile.name}} <br/>
+      <strong>E-Mail: </strong> {{profile.mail}} <br/>
+      <strong>Nick Name: </strong> <input type="text" value="{{profile.field_user_nick_name.und[0].value}}" ng-model="profile.editProfile.field_user_nick_name.und[0].value" />
+      <div class="padding">
+        <button class="button button-block button-positive button-spinner" ng-click="profile.saveProfile(profile.editProfile)">Save</button>
+      </div>
+      <br/><br/>
+      <input type="hidden" value="{{profile.uid}}" ng-model="profile.changePassword.uid" />
+      <strong>Password: </strong> <input type="password" ng-model="profile.changePassword.pass.pass1" />
+      <strong>Confirm Password: </strong> <input type="password" ng-model="profile.changePassword.pass.pass2" />
+      <div class="msg-block" ng-show="myForm.$error">
+        <span class="msg-error" ng-show="myForm.pw2.$error.pwmatch">
+          Passwords don't match.
+        </span>
+      </div>
+      <div class="padding">
+        <button class="button button-block button-positive button-spinner" ng-click="profile.saveChangePassword(profile.changePassword)">Save Change Password</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

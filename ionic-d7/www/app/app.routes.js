@@ -90,6 +90,19 @@
           'access': AuthenticationServiceConstant.accessLevels.user
         }
       })
+      
+      .state('app.editprofile', {
+        url: '/editprofile',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/components/profile/editprofile.view.html',
+            controller: 'ProfileController as profile'
+          }
+        },
+        data: {
+          'access': AuthenticationServiceConstant.accessLevels.user
+        }
+      })
 
       .state('app.articleFeed', {
         url: '/article-feed',
