@@ -73,7 +73,8 @@
       loadRecent: loadRecent,
       loadMore: loadMore,
       saveBusiness: saveBusiness,
-      deleteBusiness: deleteBusiness
+      deleteBusiness: deleteBusiness,
+      updateBusiness: updateBusiness
     }
  
 
@@ -92,12 +93,12 @@
           defer.resolve(businesses);
         }
       )
-        .catch(
+      .catch(
         function (error) {
           defer.reject(error);
         }
       )
-        .finally(
+      .finally(
         function () {
           initialised = true;
         }
@@ -276,7 +277,7 @@
           return $q.resolve(true);
         }
       )
-        .finally(
+      .finally(
         function () {
           return NodeResource.create(preparedBusiness);
         }
@@ -595,6 +596,79 @@
       );
 
       return defer_ct.promise;
+
+    }
+    
+    
+    //Update business and optional image
+    //returns promise
+    function updateBusiness(business) {
+      console.log("updateBusiness");
+
+      var preparedBusiness = angular.merge({}, business);
+
+      var field_biz_geocodeData = {
+        bottom : "48.193302200000",
+        geo_type : "point",
+        geohash : "u2ed5v743dstd",
+        geom : "POINT (16.3408603 48.1933022)",
+        lat: "48.193302200000",
+        left: "16.340860300000",
+        lon: "16.340860300000",
+        right: "16.340860300000",
+        top: "48.193302200000"
+      };
+
+      preparedBusiness.field_biz_geocodeData = DrupalHelperService.structureField(field_biz_geocodeData);
+
+
+      return trySaveOptionalImage()
+        .then(
+        function (result) {
+          preparedBusiness.field_image = DrupalHelperService.structureField({fid: result.data.fid});
+        },
+        function (error) {
+          //resolve without image
+          return $q.resolve(true);
+        }
+      )
+      .finally(
+        function () {
+          return NodeResource.update(preparedBusiness);
+        }
+      );
+
+      ///////////
+
+
+      //returns promise
+      // - resolve after saved image to server
+      // - rejects if saving image fails or no image given
+      function trySaveOptionalImage() {
+        console.log("trySaveOptionalImage");
+        return $q.reject(false);
+        //if data is given
+        if (preparedBusiness.field_image.base64) {
+
+          var imgData = preparedBusiness.field_image.base64;
+          delete preparedBusiness.field_image.base64;
+
+          var newImage = {};
+
+          newImage.file = imgData;
+          newImage.filename = 'drupal.jpg';
+          newImage.filesize = newImage.file.length;
+          newImage.filepath = 'field/image/';
+          newImage.filemime = "image/jpeg",
+          newImage.image_file_name = 'drupal.jpg';
+
+          return FileResource.create(newImage);
+        }
+
+        //else fail
+        return $q.reject(false);
+
+      }
 
     };
 

@@ -24,6 +24,9 @@
 
     init();
 
+    vm.goToLogin = goToLogin;
+    vm.goToRegister = goToRegister;
+
     ///////////////////////
 
     function init(){
@@ -41,6 +44,13 @@
       $scope.app.$state.go('app.register');
     }
 
+    ///////////////
+    function goToLogin() {
+      $scope.app.$state.go('app.login');
+    }
+    function goToRegister() {
+      $scope.app.$state.go('app.register');
+    }
 
   };
 

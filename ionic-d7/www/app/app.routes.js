@@ -32,10 +32,10 @@
 
     //set default URL
     if (!$localStorageProvider.get('isRegistered')) {
-      $urlRouterProvider.otherwise('app/register');
+      $urlRouterProvider.otherwise('app/splash');
     }
     else {
-      $urlRouterProvider.otherwise('app/login');
+      $urlRouterProvider.otherwise('app/splash');
     }
  
     //set states
@@ -54,6 +54,16 @@
           'menuContent': {
             templateUrl: 'app/components/tour/tour.view.html',
             controller: 'TourController as tour'
+          }
+        }
+      })
+      
+      .state('app.splash', {
+        url: '/splash',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/components/splash/splash.view.html',
+            controller: 'TourController as splash'
           }
         }
       })
