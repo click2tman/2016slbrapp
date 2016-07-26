@@ -29,6 +29,7 @@
     $urlRouterProvider.deferIntercept();
 
     //routing configurations
+    var randomh = Math.random();
 
     //set default URL
     if (!$localStorageProvider.get('isRegistered')) {
@@ -62,7 +63,7 @@
         url: '/splash',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/splash/splash.view.html',
+            templateUrl: 'app/components/splash/splash.view.html?x=' + randomh,
             controller: 'TourController as splash'
           }
         }
