@@ -1,0 +1,43 @@
+<ion-view title="Welcome">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div style="width:150px;margin:0px auto;margin-top:50px;">
+        <img src="app/components/img/splash_logo.png"/>
+    </div>
+    <div style="width:90%;margin:auto;margin-top:40px;color:#777777;font-size:22px;text-align:center;line-height:30px">
+        <span>
+            Welcome to <br />
+        </span>
+        <span style="margin-left:2px;color:#86dc00">
+        Sierra Leone Business Reviews.
+        </span>
+        <span style="color:#337ab7;font-size:90%;">
+            <br />Find, Rate and Review a local business.
+        </span>
+    </div>
+    <div style="width:100px;margin:auto;margin-top:70px;color:#777777;font-size:22px;">
+        <a href>
+            <img src="app/components/img/agreement_round.png"/>
+        </a>
+    </div>
+    <div style="position:absolute;width:100%;bottom:15px;padding-left:10px;padding-right:10px;">
+        <div style="float:left;color:#777777;font-size:22px;" ng-click="welcome.goToLogin()">
+            <a href style="color:#767676;text-decoration:none;">
+                Sign in
+            </a>
+        </div>
+        <div style="text-align: center;">
+            <i class="ion-android-radio-button-on" />
+            <i class="ion-android-radio-button-off" />
+            <i class="ion-android-radio-button-off" />
+        </div>
+        <div style="float:right;color:#777777;font-size:22px;" ng-click="welcome.goToRegister()">
+            <a href style="color:#767676;text-decoration:none;">
+                Sign up
+            </a>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

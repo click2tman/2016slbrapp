@@ -1,0 +1,29 @@
+;
+(function () {
+  'use strict';
+
+  angular
+    .module('drupalionicDemo.splash.controller', ['ngMessages', 'commons.validation.setValidAfterChange'])
+    .controller('SplashController', SplashController)
+
+  SplashController.$inject = ['$scope', 'AuthenticationService'];
+  function SplashController($scope, AuthenticationService) {
+
+    // jshint validthis: true
+    var vm = this;
+    alert(vm);
+    /*
+    vm.serverErrors = [];
+  
+    vm.goToLogin = goToLogin;
+    vm.goToRegister = goToRegister;
+
+    ///////////////
+    function goToLogin() {
+      $scope.app.$state.go('app.login');
+    }
+    function goToRegister() {
+      $scope.app.$state.go('app.register');
+    }; */
+  };
+})();
