@@ -1,0 +1,282 @@
+<div class="modal">
+
+  <!-- Modal header bar -->
+  <ion-header-bar class="bar-secondary">
+    <h1 class="title">Edit Business</h1>
+    <button class="button button-clear button-positive" ng-click="businessDetail.closeEditBusinessModal()">Cancel</button>
+  </ion-header-bar>
+ 
+  <!-- Modal content area -->
+  <ion-content>
+    <form>
+      <div class="list">
+        <label class="item item-input">
+           <strong>Category:</strong>
+           <select name="businessCategory" id="businessCategory" ng-model="businessDetail.editBusiness.field_ltc_biz_category.und">
+             <option value="">Select Category</option>
+             <option ng-repeat="option in businessDetail.business_categories" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+        </label>
+        
+        <label class="item item-input">
+           <strong>Title: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.title" placeholder="Title">
+        </label>
+
+        <label class="item item-input">
+           <strong>Telephone: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_telephone.und[0].value" placeholder="Telephone">
+        </label>
+
+        <label class="item item-input">
+           <strong>Email: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_email.und[0].email" placeholder="Email">
+        </label>
+
+        <label class="item item-input">
+           <strong>Website: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_website.und[0].url" placeholder="Website">
+        </label>
+        <label class="item item-input">
+           <strong>Chiefdom: </strong>
+           <select name="businessChiefdom" id="businessChiefdom" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.level0" 
+                ng-change="businessDetail.getChildChiefdom(businessDetail.editBusiness.field_ltc_biz_admin_location.level0, 1)">
+             <option value="">Select Chiefdom</option>
+             <option ng-repeat="option in businessDetail.chiefdoms" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>   
+
+           <select name="businessChiefdom_level1" id="businessChiefdom_level1" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.level1" 
+                ng-change="businessDetail.getChildChiefdom(businessDetail.editBusiness.field_ltc_biz_admin_location.level1, 2)">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessDetail.chiefdoms_level1" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+
+           <select name="businessChiefdom_level2" id="businessChiefdom_level2" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.und[0].tid">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessDetail.chiefdoms_level2" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+        </label>
+
+        <label class="item item-input">
+           <strong>Keywords: </strong>
+           <select name="businessKeywords" id="businessKeywords" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.level0" 
+                ng-change="businessDetail.getChildKeywords(v.field_ltc_business_keywords.level0, 1)">
+             <option value="">Select Keywords</option>
+             <option ng-repeat="option in businessDetail.keywords" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+
+           <select name="businessKeywords_level1" id="businessKeywords_level1" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.level1" 
+                ng-change="businessDetail.getChildKeywords(businessDetail.editBusiness.field_ltc_business_keywords.level1, 2)">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessDetail.keywords_level1" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+
+           <select name="businessKeywords_level1" id="businessKeywords_level1" ng-model="v.field_ltc_business_keywords.und[0].tid">
+             <option value="">- None -</option>
+             <option ng-repeat="option in businessDetail.keywords_level2" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
+           </select>
+        </label>
+        
+        
+        <strong>Postal Address</strong><br/>
+        <label class="item item-input">
+           <strong>Address 1: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_address.und[0].thoroughfare" placeholder="Address 1">
+        </label>
+        <label class="item item-input">
+           <strong>Address 2: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_address.und[0].premise" placeholder="Address 2">
+        </label>
+        <label class="item item-input">
+           <strong>City: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_address.und[0].locality" placeholder="City">
+        </label>
+
+       
+        <label class="item item-input">
+           <strong>Description: </strong>
+          <textarea rows="6" placeholder="Body" type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_description.und[0].value" ></textarea>
+        </label>
+
+        <strong>Hours</strong><br/>
+        <div ng-repeat="option in businessDetail.days" value="{{option.day_id}}" ng-init="customIndex = $index">
+                <strong>{{option.day_name}}</strong>
+                <span ng-if="$index < 6">
+                        <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                </span>
+                <span ng-if="$index == 6">
+                        <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                </span>
+                <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].daydelta" />
+                
+                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].starthours">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_minutes">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <strong>To</strong>
+                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].endhours">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
+                     <option value=""></option>
+                     <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
+                </select>
+                <a href="javascript:;" ng-click="showAddMore({{$index}})">Add More</a> 
+                <div ng-show="add_more[$index].addmore">
+                        <span ng-if="$index < 6">
+                                <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                        </span>
+                        <span ng-if="$index == 6">
+                                <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+                        </span>
+                        <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="1" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].daydelta" />
+
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].starthours">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_minutes">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                        <strong>To</strong>
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].endhours">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                        <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
+                             <option value=""></option>
+                             <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
+                        </select>
+                </div>
+        </div> 
+        <strong>Location Longitude and Latitude</strong><br/>     
+        <label class="item item-input">
+           <strong>Geocode address: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_address_geo.und[0].value" placeholder="Geocode address">
+        </label>
+        <label class="item item-input">
+           <strong>Latitude: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_address_geo.und[0].lat" placeholder="Latitude">
+        </label>
+        <label class="item item-input">
+           <strong>Longitude: </strong>
+          <input type="text" ng-model="businessDetail.editBusiness.field_ltc_biz_address_geo.und[0].lon" placeholder="Longitude">
+        </label> 
+        
+        <strong>Paid Subscription Fields</strong><br/>
+        <div>
+          <strong>Banner Image: </strong>
+          <div class="row">
+            <div class="col-50">
+              <img class="businesses-image" ng-src="{{businessDetail.editBusiness.field_image.und[0].imgPath}}"
+                   ng-if="businessDetail.editBusiness.field_image.und[0].imgPath && businessDetail.editBusiness.field_image.base64 == false"/>
+
+              <div class="businesses-image"
+                   style=" background-image:url(data:image/jpeg;base64,{{businessDetail.editBusiness.field_image.base64}})"
+                   ng-if="!businessDetail.editBusiness.field_image.und[0].imgPath"></div>
+            </div>
+            <div class="col-50">
+              <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                      ng-class="{ true:'disabled' }[!businessDetail.editBusiness.field_image.base64 || businessDetail.savingBusiness]"
+                      ng-click="businessDetail.editBusiness.field_image.base64 = false">
+                Delete
+              </button>
+
+              <button type="submit" ng-click="businessDetail.takeImage()"
+                      class="button button-block button-positive icon-left ion-camera"
+                      ng-class="{ true:'disabled' }[businessDetail.savingBusiness]">
+                <span ng-if="businessDetail.editBusiness.field_image.base64">Retake</span>
+                <span ng-if="!businessDetail.editBusiness.field_image.base64">Take</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <strong>Photos: </strong>
+          <div class="row">
+            <div class="col-50">
+              <img class="businesses-image" ng-src="{{businessDetail.editBusiness.photos.und[0].imgPath}}"
+                   ng-if="businessDetail.editBusiness.photos.und[0].imgPath && businessDetail.editBusiness.photos.base64 == false"/>
+
+              <div class="businesses-image"
+                   style=" background-image:url(data:image/jpeg;base64,{{businessDetail.editBusiness.photos.base64}})"
+                   ng-if="!businessDetail.editBusiness.photos.und[0].imgPath"></div>
+            </div>
+            <div class="col-50">
+              <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                      ng-class="{ true:'disabled' }[!businessDetail.editBusiness.photos.base64 || businessDetail.savingBusiness]"
+                      ng-click="businessDetail.editBusiness.photos.base64 = false">
+                Delete
+              </button>
+
+              <button type="submit" ng-click="businessDetail.takeImage()"
+                      class="button button-block button-positive icon-left ion-camera"
+                      ng-class="{ true:'disabled' }[businessDetail.savingBusiness]">
+                <span ng-if="businessDetail.editBusiness.photos.base64">Retake</span>
+                <span ng-if="!businessDetail.editBusiness.photos.base64">Take</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <label class="item item-input">
+           <strong>Member Type: </strong>
+           <select name="memberType" id="memberType" ng-model="businessDetail.editBusiness.field_ltc_biz_member_type.und">
+             <option value="">Select Member Type</option>
+             <option ng-repeat="option in businessDetail.member_type" value="{{option.tid}}">{{option.term_name}}</option>
+           </select>
+        </label>        
+        <div>
+          <strong>Logo: </strong>
+          <div class="row">
+            <div class="col-50">
+              <img class="businesses-image" ng-src="{{businessDetail.editBusiness.logo.und[0].imgPath}}"
+                   ng-if="businessDetail.editBusiness.logo.und[0].imgPath && businessDetail.editBusiness.logo.base64 == false"/>
+
+              <div class="businesses-image"
+                   style=" background-image:url(data:image/jpeg;base64,{{businessDetail.editBusiness.logo.base64}})"
+                   ng-if="!businessDetail.editBusiness.logo.und[0].imgPath"></div>
+            </div>
+            <div class="col-50">
+              <button type="submit" class="button button-block button-assertive icon-left ion-trash-a"
+                      ng-class="{ true:'disabled' }[!businessDetail.editBusiness.logo.base64 || businessDetail.savingBusiness]"
+                      ng-click="businessDetail.editBusiness.logo.base64 = false">
+                Delete
+              </button>
+
+              <button type="submit" ng-click="businessDetail.takeImage()"
+                      class="button button-block button-positive icon-left ion-camera"
+                      ng-class="{ true:'disabled' }[businessDetail.savingBusiness]">
+                <span ng-if="businessDetail.editBusiness.logo.base64">Retake</span>
+                <span ng-if="!businessDetail.editBusiness.logo.base64">Take</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="padding">
+          <button ng-if="businessDetail.businessModalMode == 'create'" type="submit"
+                  ng-click="businessDetail.saveBusiness(businessDetail.editBusiness)"
+                  ng-class="{ true:'disabled' }[businessDetail.savingBusiness]"
+                  class="button button-block button-positive button-spinner">
+            Save
+            <ion-spinner ng-if="businessDetail.savingBusiness"></ion-spinner>
+          </button>
+          <button ng-if="businessDetail.businessModalMode == 'edit'" type="submit"
+                  ng-click="businessDetail.saveBusiness(businessDetail.editBusiness)"
+                  class="button button-block button-positive button-spinner">
+            Update
+            <ion-spinner ng-if="businessDetail.savingBusiness"></ion-spinner>
+          </button>
+        </div>
+
+    </form>
+
+  </ion-content>
+
+</div>
