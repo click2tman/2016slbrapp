@@ -162,6 +162,34 @@
              function() {
              }
      );
+     
+     //To Retrive Parent Term IDs for Edit Case Section Start....
+     chiefdomparentdata = {};
+     chiefdomparentdata.tid = businessDetail.field_ltc_biz_admin_location.und[0].tid;
+     vm.chiefdomparentinfo = {};
+     BusinessFeedService.retrieveparents(chiefdomparentdata).then(
+             function(data) {
+                     vm.chiefdomparentinfo = data;
+                     //alert(JSON.stringify(vm.chiefdomparentinfo));
+             },
+             //error loading user
+             function() {
+             }
+     );
+     
+     keywordparentdata = {};
+     keywordparentdata.tid = businessDetail.field_ltc_business_keywords.und[0].tid;
+     vm.keywordparentinfo = {};
+     BusinessFeedService.retrieveparents(keywordparentdata).then(
+             function(data) {
+                     vm.keywordparentinfo = data;
+                     //alert(JSON.stringify(vm.keywordparentinfo));
+             },
+             //error loading user
+             function() {
+             }
+     );
+     //To Retrive Parent Term IDs for Edit Case Section End....
  
      vm.showWriteReview = function showWriteReview() {
         vm.flagAddReview = true;
@@ -247,25 +275,64 @@
     // Open our new task modal
     function openEditBusinessModal(business, linstIndex) {
       vm.editBusiness = businessDetail;
-      var jsonBusinessHours = vm.editBusiness.field_ltc_biz_business_hours.und;
-      var length = jsonBusinessHours.length;
-      var currentDay = vm.editBusiness.field_ltc_biz_business_hours.und[(length - 1)].day;
-      for(i = length; i <= 13; i++) {
-        if(currentDay == 6) { 
-          currentDay = 0;
-        }
-        else {
-          currentDay++;
-        }
-        day = {"day": currentDay, "starthours": "", "endhours": "", "daydelta": "1"};
-        vm.editBusiness.field_ltc_biz_business_hours.und.push(day);
-      } 
-      vm.editBusiness.field_ltc_biz_category.und = vm.editBusiness.field_ltc_biz_category.und[0].tid;
       
-      alert(JSON.stringify(vm.editBusiness)); 
-
-      //alert(JSON.stringify(vm.editBusiness));
-      vm.businessModalMode = 'edit';
+      var jsonBusinessHours = vm.editBusiness.field_ltc_biz_business_hours.und;
+      var length = jsonBusinessHours.length;  
+      var business_hours = [];
+      for(i = 0; i <= 13; i++) {
+          day = i + 1;
+          delta = 0;
+          if(i > 6) {
+            delta = 1;
+            day = day - 7;
+          }
+          if(day == 7) day = 0;
+          jsonDay = {"day": day, "starthours": "", "startminute": "", "endhours": "", "endminute": "", "daydelta": delta};
+          business_hours[i] = jsonDay; 
+      } 
+      
+      day = "";
+      prevDay = "";
+      for(i = 0; i < length; i++) {
+        day = i;
+        if(day >= 7) day = day - 7;
+        starthours = "";
+        endhours = "";
+        if(vm.editBusiness.field_ltc_biz_business_hours.und[i]) {
+          day = vm.editBusiness.field_ltc_biz_business_hours.und[i].day;
+          starthours = vm.editBusiness.field_ltc_biz_business_hours.und[i].starthours;
+          endhours = vm.editBusiness.field_ltc_biz_business_hours.und[i].endhours;
+        }
+        if(prevDay == day && prevDay != "") { 
+          var index = parseInt(day) - 1;
+          if(day == 0) { 
+            index = 6; 
+          }
+          $scope.add_more[index].addmore = true;  
+          //prevDay = "";
+          index = "";
+          for(j = 7; j <= 13; j++) {
+            if (business_hours[j].day == parseInt(day)) {
+              index = j;
+            }
+          }
+          jsonDay = {"day": day, "starthours": parseInt(starthours), "startminute": 00, "endhours": parseInt(endhours), "endminute": 00, "daydelta": 1};
+          business_hours[index] = jsonDay;
+        }
+        else {  
+          prevDay = day;
+          jsonDay = {"day": day, "starthours": parseInt(starthours), "startminute": 00, "endhours": parseInt(endhours), "endminute": 00, "daydelta": 0};
+          index = "";
+          for(j = 0; j < 7; j++) {
+            if (business_hours[j].day == parseInt(day)) {
+              index = j;
+            }
+          }
+          business_hours[index] = jsonDay;
+        }
+      }
+      vm.editBusiness.field_ltc_biz_business_hours.und = business_hours; 
+      
       
       // Member Types...
       vm.member_type = [];
@@ -278,6 +345,49 @@
            vm.member_type.push(member_type);
       }
       //alert(JSON.stringify(vm.member_type));
+      
+      //Assign category id to model variable.....
+      vm.editBusiness.field_ltc_biz_category.und = vm.editBusiness.field_ltc_biz_category.und[0].tid;
+      vm.editBusiness.field_ltc_biz_member_type.und = member_type_term[vm.editBusiness.field_ltc_biz_member_type.und[0].value];
+      vm.businessModalMode = 'edit';
+      
+      var jsonChiefdomParentCats = vm.chiefdomparentinfo;
+      var length = jsonChiefdomParentCats.length;
+      for(i = 0; i < length; i++) {
+        tid = vm.chiefdomparentinfo[i].tid;
+        if(i == 1) {
+          vm.editBusiness.field_ltc_biz_admin_location.level1 = tid;
+          vm.chiefdoms_level2 = vm.getChildChiefdom(tid, 2);
+        }
+        else if(i == 2) {
+          vm.editBusiness.field_ltc_biz_admin_location.level0 = tid;
+          vm.chiefdoms_level1 = vm.getChildChiefdom(tid, 1);
+        }
+      } 
+      
+      alert(JSON.stringify(vm.keywordparentinfo));
+      var jsonKeywordParentCats = vm.keywordparentinfo;
+      var length = jsonKeywordParentCats.length;
+      for(i = 0; i < length; i++) {
+        tid = vm.keywordparentinfo[i].tid;
+        if(length == 2) {
+            vm.editBusiness.field_ltc_business_keywords.level0 = tid;
+            vm.editBusiness.field_ltc_business_keywords.level1 = vm.editBusiness.field_ltc_business_keywords.und[0].tid;
+            vm.keywords_level1 = vm.getChildKeywords(tid, 1);
+        }
+        else {
+          if(i == 1) {
+            vm.editBusiness.field_ltc_business_keywords.level1 = tid;
+            vm.keywords_level2 = vm.getChildKeywords(tid, 2);
+          }
+          else if(i == 2) {
+            vm.editBusiness.field_ltc_business_keywords.level0 = tid;
+            vm.keywords_level1 = vm.getChildKeywords(tid, 1);
+          }
+        }
+      } 
+      
+      alert(JSON.stringify(vm.editBusiness));
 
       // Days...
       vm.days = [];
@@ -332,8 +442,9 @@
     };
 
     
+    var randomh = Math.random();
     // init the editBusinessModal
-    $ionicModal.fromTemplateUrl('app/components/businessFeed/businessDetail/templates/edit.modal.html',
+    $ionicModal.fromTemplateUrl('app/components/businessFeed/businessDetail/templates/edit.modal.html?x=' + randomh,
       function (modal) {
         vm.editBusinessModal = modal;
       }, {

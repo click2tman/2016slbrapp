@@ -6,7 +6,9 @@
     <title></title>
     <!-- compiled css output -->
     <link href="assets/css/ionic.app.css" rel="stylesheet">
-
+    <script language="javascript">
+      var random = Math.random().toString(36).substring(7);
+    </script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -20,36 +22,36 @@
     <script src="lib/angular-messages/angular-messages.min.js"></script>
 
     <!-- d7-services -->
-    <script src="lib/ng-drupal-7-services/dist/ng-drupal-7-services.js"></script>
+    <script src="lib/ng-drupal-7-services/dist/ng-drupal-7-services.js?q=" + random></script>
 
     <!-- jk-rating-stars -->
-    <script src="lib/angular-jk-rating-stars/dist/jk-rating-stars.js"></script>
-    <link href="lib/angular-jk-rating-stars/dist/jk-rating-stars.css" rel="stylesheet" type="text/css" />
+    <script src="lib/angular-jk-rating-stars/dist/jk-rating-stars.js?q=" + random></script>
+    <link href="lib/angular-jk-rating-stars/dist/jk-rating-stars.css?q=" + random rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
 
     <!-- app components -->
-    <script src="app/app.controller.js"></script>
-    <script src="app/components/tour/tour.controller.js"></script>
-    <script src="app/components/register/register.controller.js"></script>
-    <script src="app/components/login/login.controller.js"></script>
-    <script src="app/components/profile/profile.controller.js"></script>
-    <script src="app/components/profile/profile.service.js"></script>
+    <script src="app/app.controller.js?q=" + random></script>
+    <script src="app/components/tour/tour.controller.js?q=" + random></script>
+    <script src="app/components/register/register.controller.js?q=" + random></script>
+    <script src="app/components/login/login.controller.js?q=" + random></script>
+    <script src="app/components/profile/profile.controller.js?q=" + random></script>
+    <script src="app/components/profile/profile.service.js?q=" + random></script>
 
-    <script src="app/components/articleFeed/articleFeed.service.js"></script>
-    <script src="app/components/articleFeed/articleFeed.controller.js"></script>
-    <script src="app/components/articleFeed/articleDetail/articleDetail.controller.js"></script>
+    <script src="app/components/articleFeed/articleFeed.service.js?q=" + random></script>
+    <script src="app/components/articleFeed/articleFeed.controller.js?q=" + random></script>
+    <script src="app/components/articleFeed/articleDetail/articleDetail.controller.js?q=" + random></script>
 
-    <script src="app/components/businessFeed/businessFeed.service.js"></script>
-    <script src="app/components/businessFeed/businessFeed.controller.js"></script>
-    <script src="app/components/businessFeed/businessDetail/businessDetail.controller.js"></script>
+    <script src="app/components/businessFeed/businessFeed.service.js?q=" + random></script>
+    <script src="app/components/businessFeed/businessFeed.controller.js?q=" + random></script>
+    <script src="app/components/businessFeed/businessDetail/businessDetail.controller.js?q=" + random></script>
 
     <script src="app/commons/directives.toggleByOwnUid.js"></script>
     <script src="app/commons/validation/validation.setValidAfterChange.js"></script>
 
     <!-- your app's js -->
-    <script src="app/app.config.js"></script>
-    <script src="app/app.routes.js"></script>
-    <script src="app/app.js"></script>
+    <script src="app/app.config.js?q=" + random></script>
+    <script src="app/app.routes.js?q=" + random></script>
+    <script src="app/app.js?q=" + random></script>
   </head>
   <body ng-app="drupalionicDemo">
     <ion-nav-bar class="nav-title-slide-ios7 bar-light">

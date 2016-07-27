@@ -39,42 +39,26 @@
         </label>
         <label class="item item-input">
            <strong>Chiefdom: </strong>
-           <select name="businessChiefdom" id="businessChiefdom" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.level0" 
-                ng-change="businessDetail.getChildChiefdom(businessDetail.editBusiness.field_ltc_biz_admin_location.level0, 1)">
-             <option value="">Select Chiefdom</option>
-             <option ng-repeat="option in businessDetail.chiefdoms" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
-           </select>   
-
-           <select name="businessChiefdom_level1" id="businessChiefdom_level1" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.level1" 
-                ng-change="businessDetail.getChildChiefdom(businessDetail.editBusiness.field_ltc_biz_admin_location.level1, 2)">
-             <option value="">- None -</option>
-             <option ng-repeat="option in businessDetail.chiefdoms_level1" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
-           </select>
-
-           <select name="businessChiefdom_level2" id="businessChiefdom_level2" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.und[0].tid">
-             <option value="">- None -</option>
-             <option ng-repeat="option in businessDetail.chiefdoms_level2" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
-           </select>
+           <select ng-options="option.tid as option.taxonomy_term_data_name for option in businessDetail.chiefdoms" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.level0"
+           ng-change="businessDetail.getChildChiefdom(businessDetail.editBusiness.field_ltc_biz_admin_location.level0, 1)"></select>
+           
+           <select ng-options="option.tid as option.taxonomy_term_data_name for option in businessDetail.chiefdoms_level1" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.level1"
+           ng-change="businessDetail.getChildChiefdom(businessDetail.editBusiness.field_ltc_biz_admin_location.level1, 2)"></select>
+           
+           <select ng-options="option.tid as option.taxonomy_term_data_name for option in businessDetail.chiefdoms_level2" ng-model="businessDetail.editBusiness.field_ltc_biz_admin_location.und[0].tid"
+           ></select>
         </label>
 
         <label class="item item-input">
            <strong>Keywords: </strong>
-           <select name="businessKeywords" id="businessKeywords" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.level0" 
-                ng-change="businessDetail.getChildKeywords(v.field_ltc_business_keywords.level0, 1)">
-             <option value="">Select Keywords</option>
-             <option ng-repeat="option in businessDetail.keywords" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
-           </select>
-
-           <select name="businessKeywords_level1" id="businessKeywords_level1" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.level1" 
-                ng-change="businessDetail.getChildKeywords(businessDetail.editBusiness.field_ltc_business_keywords.level1, 2)">
-             <option value="">- None -</option>
-             <option ng-repeat="option in businessDetail.keywords_level1" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
-           </select>
-
-           <select name="businessKeywords_level1" id="businessKeywords_level1" ng-model="v.field_ltc_business_keywords.und[0].tid">
-             <option value="">- None -</option>
-             <option ng-repeat="option in businessDetail.keywords_level2" value="{{option.tid}}">{{option.taxonomy_term_data_name}}</option>
-           </select>
+           <select ng-options="option.tid as option.taxonomy_term_data_name for option in businessDetail.keywords" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.level0"
+           ng-change="businessDetail.getChildKeywords(businessDetail.editBusiness.field_ltc_business_keywords.level0, 1)"></select>
+           
+           <select ng-options="option.tid as option.taxonomy_term_data_name for option in businessDetail.keywords_level1" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.level1"
+           ng-change="businessDetail.getChildKeywords(businessDetail.editBusiness.field_ltc_business_keywords.level2, 2)"></select>
+           
+           <select ng-options="option.tid as option.taxonomy_term_data_name for option in businessDetail.keywords_level2" ng-model="businessDetail.editBusiness.field_ltc_business_keywords.und[0].tid"
+           ></select>
         </label>
         
         
@@ -100,60 +84,38 @@
 
         <strong>Hours</strong><br/>
         <div ng-repeat="option in businessDetail.days" value="{{option.day_id}}" ng-init="customIndex = $index">
-                <strong>{{option.day_name}}</strong>
-                <span ng-if="$index < 6">
-                        <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
-                </span>
-                <span ng-if="$index == 6">
-                        <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
-                </span>
-                <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].daydelta" />
-                
-                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].starthours">
-                     <option value=""></option>
-                     <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
-                </select>
-                <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_minutes">
-                     <option value=""></option>
-                     <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
-                </select>
-                <strong>To</strong>
-                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].endhours">
-                     <option value=""></option>
-                     <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
-                </select>
-                <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
-                     <option value=""></option>
-                     <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
-                </select>
-                <a href="javascript:;" ng-click="showAddMore({{$index}})">Add More</a> 
-                <div ng-show="add_more[$index].addmore">
-                        <span ng-if="$index < 6">
-                                <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
-                        </span>
-                        <span ng-if="$index == 6">
-                                <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
-                        </span>
-                        <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="1" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].daydelta" />
+            <strong>{{option.day_name}}</strong>
+            <span ng-if="$index < 6">
+                    <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+            </span>
+            <span ng-if="$index == 6">
+                    <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+            </span>
+            <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].daydelta" />
+            
+            <select ng-options="hour.value as hour.title for hour in businessDetail.hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].starthours"></select>
+            <select ng-options="minute.value as minute.title for minute in businessDetail.minutes" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].startminute"></select>
+            <strong>To</strong>
+            <select ng-options="hour.value as hour.title for hour in businessDetail.hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].endhours"></select>
+            <select ng-options="minute.value as minute.title for minute in businessDetail.minutes" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].endminute"></select>
+            <a href="javascript:;" ng-click="showAddMore({{$index}})">Add More</a>
+            <div ng-show="add_more[$index].addmore">
+              <span ng-if="$index < 6">
+                      <input type="hidden" name="day" id="day_{{option.day_id}}" value="{{$index + 1}}" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+              </span>
+              <span ng-if="$index == 6">
+                      <input type="hidden" name="day" id="day_{{option.day_id}}" value="0" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[$index].day" />
+              </span>
+              <input type="hidden" name="daydelta" id="daydelta_{{option.day_id}}" value="1" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].daydelta" /> 
 
-                        <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].starthours">
-                             <option value=""></option>
-                             <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
-                        </select>
-                        <select name="{{option.day_id}}" id="{{option.day_id}}_starthours_minutes">
-                             <option value=""></option>
-                             <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
-                        </select>
-                        <strong>To</strong>
-                        <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].endhours">
-                             <option value=""></option>
-                             <option ng-repeat="option in businessDetail.hours" value="{{option.value}}">{{option.title}}</option>
-                        </select>
-                        <select name="{{option.day_id}}" id="{{option.day_id}}_endhours_minutes">
-                             <option value=""></option>
-                             <option ng-repeat="option in businessDetail.minutes" value="{{option.value}}">{{option.title}}</option>
-                        </select>
-                </div>
+              <select ng-options="hour.value as hour.title for hour in businessDetail.hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].starthours"></select>
+              <select ng-options="minute.value as minute.title for minute in businessDetail.minutes" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].startminute">
+              </select>
+              <strong>To</strong>
+              <select ng-options="hour.value as hour.title for hour in businessDetail.hours" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].endhours">
+              </select>
+              <select ng-options="minute.value as minute.title for minute in businessDetail.minutes" ng-model="businessDetail.editBusiness.field_ltc_biz_business_hours.und[customIndex + 7].endminute"></select>
+            </div>
         </div> 
         <strong>Location Longitude and Latitude</strong><br/>     
         <label class="item item-input">
@@ -226,9 +188,7 @@
         </div>
         <label class="item item-input">
            <strong>Member Type: </strong>
-           <select name="memberType" id="memberType" ng-model="businessDetail.editBusiness.field_ltc_biz_member_type.und">
-             <option value="">Select Member Type</option>
-             <option ng-repeat="option in businessDetail.member_type" value="{{option.tid}}">{{option.term_name}}</option>
+           <select ng-options="option.tid as option.term_name for option in businessDetail.member_type" ng-model="businessDetail.editBusiness.field_ltc_biz_member_type.und">
            </select>
         </label>        
         <div>

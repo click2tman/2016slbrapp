@@ -45,7 +45,7 @@
       .state('app', {
         url: "/app",
         abstract: true,
-        templateUrl: "app/app.view.html",
+        templateUrl: 'app/app.view.html?x=' + randomh,
         controller: 'AppController as app'
       })
 
@@ -53,7 +53,7 @@
         url: '/tour',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/tour/tour.view.html',
+            templateUrl: 'app/components/tour/tour.view.html?x=' + randomh,
             controller: 'TourController as tour'
           }
         }
@@ -73,7 +73,7 @@
         url: '/login',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/login/login.view.html',
+            templateUrl: 'app/components/login/login.view.html?x=' + randomh,
             controller: 'LoginController as login'
           }
         }
@@ -83,7 +83,7 @@
         url: '/register',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/register/register.view.html',
+            templateUrl: 'app/components/register/register.view.html?x=' + randomh,
             controller: 'RegisterController as register'
           }
         }
@@ -93,7 +93,7 @@
         url: '/profile',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/profile/profile.view.html',
+            templateUrl: 'app/components/profile/profile.view.html?x=' + randomh,
             controller: 'ProfileController as profile'
           }
         },
@@ -106,7 +106,7 @@
         url: '/editprofile',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/profile/editprofile.view.html',
+            templateUrl: 'app/components/profile/editprofile.view.html?x=' + randomh,
             controller: 'ProfileController as profile'
           }
         },
@@ -119,7 +119,7 @@
         url: '/article-feed',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/articleFeed/articleFeed.view.html',
+            templateUrl: 'app/components/articleFeed/articleFeed.view.html?x=' + randomh,
             controller: 'ArticleFeedController as articleFeed'
           }
         },
@@ -137,7 +137,7 @@
         url: '/article-feed/:nid?title',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/articleFeed/articleDetail/articleDetail.view.html',
+            templateUrl: 'app/components/articleFeed/articleDetail/articleDetail.view.html?x=' + randomh,
             controller: 'ArticleDetailController as articleDetail'
           }
         },
@@ -152,7 +152,7 @@
         url: '/business-feed',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/businessFeed/businessFeed.view.html',
+            templateUrl: 'app/components/businessFeed/businessFeed.view.html?x=' + randomh,
             controller: 'BusinessFeedController as businessFeed'
           }
         },
@@ -170,7 +170,7 @@
         url: '/business-feed/:nid?title',
         views: {
           'menuContent': {
-            templateUrl: 'app/components/businessFeed/businessDetail/businessDetail.view.html',
+            templateUrl: 'app/components/businessFeed/businessDetail/businessDetail.view.html?x=' + randomh,
             controller: 'BusinessDetailController as businessDetail'
           }
         },

@@ -5,8 +5,8 @@
     .module('drupalionicDemo.businessFeed.service', [])
     .factory('BusinessFeedService', BusinessFeedService);
 
-  BusinessFeedService.inject = ['$q', '$filter', 'DrupalApiConstant', 'DrupalHelperService', 'ViewsResource', 'FileResource', 'NodeResource', 'AuthenticationService', 'TaxonomyVocabularyResource', 'TaxonomyTermResource', 'CommentResource']
-  function BusinessFeedService($q, $filter, DrupalApiConstant, DrupalHelperService, ViewsResource, FileResource, NodeResource, AuthenticationService, TaxonomyTermResource, CommentResource) {
+  BusinessFeedService.inject = ['$q', '$filter', '$http', 'DrupalApiConstant', 'DrupalHelperService', 'ViewsResource', 'FileResource', 'NodeResource', 'AuthenticationService', 'TaxonomyVocabularyResource', 'TaxonomyTermResource', 'CommentResource']
+  function BusinessFeedService($q, $filter, $http, DrupalApiConstant, DrupalHelperService, ViewsResource, FileResource, NodeResource, AuthenticationService, TaxonomyTermResource, CommentResource) {
 
     console.log("BusinessFeedService");
     var initialised = false,
@@ -69,6 +69,7 @@
       getAllKeywords: getAllKeywords,
       getAllChiefdoms: getAllChiefdoms,
       getAllChildterm: getAllChildterm,
+      retrieveparents: retrieveparents,
       get: get,
       loadRecent: loadRecent,
       loadMore: loadMore,
@@ -129,7 +130,7 @@
       console.log("getAll");
       var defer = $q.defer(),
         allFilteredSpots = undefined;
-      if (businesses.length > 0) {
+      if (businesses.length > 0 && false) {
         allFilteredSpots = businesses;
       } else {
         allFilteredSpots = undefined;
@@ -599,6 +600,21 @@
 
     }
     
+    
+    function retrieveparents(data) {
+      url = DrupalApiConstant.drupal_instance + "custom-api/get-parent-term/" + data.tid;
+      config = {};
+      var defer = $q.defer();
+      $http.post(url, data, config)
+      .success(function (data) {
+          defer.resolve(data);
+      })
+      .catch(function (error) {
+          defer.reject(error);
+      });
+
+      return defer.promise; 
+    }
     
     //Update business and optional image
     //returns promise
