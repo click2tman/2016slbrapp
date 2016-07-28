@@ -348,7 +348,7 @@
       
       //Assign category id to model variable.....
       vm.editBusiness.field_ltc_biz_category.und = vm.editBusiness.field_ltc_biz_category.und[0].tid;
-      vm.editBusiness.field_ltc_biz_member_type.und = member_type_term[vm.editBusiness.field_ltc_biz_member_type.und[0].value];
+      vm.editBusiness.field_ltc_biz_member_type.und = parseInt(vm.editBusiness.field_ltc_biz_member_type.und[0].value);
       vm.businessModalMode = 'edit';
       
       var jsonChiefdomParentCats = vm.chiefdomparentinfo;
