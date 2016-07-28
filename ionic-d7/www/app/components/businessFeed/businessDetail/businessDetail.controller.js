@@ -364,8 +364,7 @@
           vm.chiefdoms_level1 = vm.getChildChiefdom(tid, 1);
         }
       } 
-      
-      alert(JSON.stringify(vm.keywordparentinfo));
+       
       var jsonKeywordParentCats = vm.keywordparentinfo;
       var length = jsonKeywordParentCats.length;
       for(i = 0; i < length; i++) {
@@ -387,7 +386,7 @@
         }
       } 
       
-      alert(JSON.stringify(vm.editBusiness));
+      //alert(JSON.stringify(vm.editBusiness));
 
       // Days...
       vm.days = [];
